@@ -1,5 +1,10 @@
 use Mix.Config
 
+# General Configuration
+config :stataz_website,
+  local_endpoint: "http://192.168.1.252:4001",
+  api_endpoint: "http://192.168.1.252:4000"
+
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #

@@ -20,7 +20,9 @@ defmodule StatazWebsite.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", StatazWebsite do
-  #   pipe_through :api
-  # end
+  scope "/auth", StatazWebsite do
+    pipe_through :api
+
+    post "/", AuthController, :create
+  end
 end

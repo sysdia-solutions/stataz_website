@@ -17,3 +17,57 @@ body, form, ul, table {
 form.link, form.button {
   display: inline;
 }
+
+.navbar-inverse {
+  border: none;
+  border-radius: 0px;
+  background-color: #34495E;
+}
+
+.navbar-brand {
+  padding: 9px 0px;
+}
+
+nav .navbar-form {
+  text-align: right;
+}
+
+nav .form-group {
+  margin-right: 5px;
+}
+
+nav .user-snippet > div {
+  display: inline-block;
+}
+
+nav .user-snippet {
+  margin-top: 4px;
+  text-align: right;
+}
+
+nav .user-snippet .user-details {
+  background-color: #FFFFFF;
+  padding: 4px 10px;
+}
+
+nav .user-snippet .username {
+  margin: 0px 5px;
+  color: #323232;
+}
+
+nav .user-snippet .sign-out-btn {
+  border-radius: 90px;
+  padding: 6px 8px;
+  margin-left: 10px;
+}
+
+@media (max-width: 767px) {
+  nav .user-snippet .user-details {
+    margin-bottom: 10px;
+  }
+
+  nav .navbar-form .form-group {
+    margin-right: 0px;
+    margin-bottom: 10px;
+  }
+}

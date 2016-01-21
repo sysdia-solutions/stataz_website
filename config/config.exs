@@ -5,6 +5,12 @@
 # is restricted to this project.
 use Mix.Config
 
+# General Configuration
+config :stataz_website,
+  local_endpoint: System.get_env("ENV_STATAZWEBSITE_LOCAL_ENDPOINT") || "",
+  api_endpoint: System.get_env("ENV_STATAZWEBSITE_API_ENDPOINT") || "",
+  api_client_id: System.get_env("ENV_STATAZWEBSITE_API_CLIENT_ID") || "defaultclientid"
+
 # Configures the endpoint
 config :stataz_website, StatazWebsite.Endpoint,
   url: [host: "localhost"],
