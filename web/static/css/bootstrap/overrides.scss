@@ -1,0 +1,40 @@
+.form-control-feedback {
+  display: none;
+}
+
+.has-feedback {
+  .form-control-feedback {
+    display: block;
+  }
+}
+
+nav {
+  &.navbar-inverse {
+    border: none;
+    border-radius: 0px;
+  }
+
+  .navbar-brand {
+    padding: 9px 0px;
+
+    @media (max-width: 767px) {
+      padding-left: 10px;
+    }
+  }
+
+  .navbar-form {
+    text-align: right;
+    @media (min-width: 768px) {
+      padding-right: 0px;
+    }
+
+    .form-group {
+      margin-right: 5px;
+
+      @media (max-width: 767px) {
+        margin-right: 0px;
+        margin-bottom: 10px;
+      }
+    }
+  }
+}

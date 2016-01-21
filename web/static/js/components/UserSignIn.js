@@ -21,7 +21,7 @@ export default class UserSignIn extends Component {
           <input type="password" ref="password" className="form-control" placeholder="Enter your password" />
           <span className="fa fa-times fa-lg form-control-feedback" aria-hidden="true"></span>
         </div>
-        <button onClick={(e) => this.handleClick(e)} className="btn btn-primary">Sign in</button>
+        <button onClick={(e) => this.handleClick(e)} className="btn btn-info">Sign in</button>
       </form>
     )
   }

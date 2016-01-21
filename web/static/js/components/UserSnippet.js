@@ -11,7 +11,7 @@ export default class UserSnippet extends Component {
           <a href="#" onClick={e=> {
             e.preventDefault()
             this.props.onSignOutClick()
-          }} className="sign-out-btn btn btn-primary" alt="Sign out" title="Sign out">
+          }} className="sign-out-btn btn btn-info" alt="Sign out" title="Sign out">
             <i className="fa fa-power-off fa-lg" />
           </a>
         </div>
