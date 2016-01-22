@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import classNames from 'classnames'
+import { Tooltip } from 'react-bootstrap'
 
 export default class UserSignIn extends Component {
   renderSignInForm() {
@@ -9,8 +10,16 @@ export default class UserSignIn extends Component {
     var groupClass = classNames({
       "form-group": true,
       "has-error": this.props.failed,
-      "has-feedback": this.props.failed
+      "has-feedback": true
     })
+
+    var toolTipClass = classNames({
+      "in": true,
+      "show-error": this.props.failed
+    })
+
+    var signinError = "Invalid username or password"
+
     return (
       <form className="navbar-form navbar-right">
         <div className={groupClass}>
@@ -21,7 +30,15 @@ export default class UserSignIn extends Component {
           <input type="password" ref="password" className="form-control" placeholder="Enter your password" />
           <span className="fa fa-times fa-lg form-control-feedback" aria-hidden="true"></span>
         </div>
-        <button onClick={(e) => this.handleClick(e)} className="btn btn-info">Sign in</button>
+        <div className="form-group">
+          <button onClick={(e) => this.handleClick(e)} className="btn btn-info">Sign in</button>
+          <Tooltip id="signin-error" placement="bottom" className={toolTipClass}>
+            { signinError }
+          </Tooltip>
+          <Tooltip id="signin-error" placement="left" className={toolTipClass}>
+            { signinError }
+          </Tooltip>
+        </div>
       </form>
     )
   }

@@ -1,5 +1,7 @@
 .form-control-feedback {
   display: none;
+  color: $white;
+  transition: color 0.5s ease;
 }
 
 .has-feedback {
@@ -24,6 +26,8 @@ nav {
 
   .navbar-form {
     text-align: right;
+    position: relative;
+
     @media (min-width: 768px) {
       padding-right: 0px;
     }
@@ -34,6 +38,50 @@ nav {
       @media (max-width: 767px) {
         margin-right: 0px;
         margin-bottom: 10px;
+      }
+
+      .tooltip {
+        opacity: 0;
+        transition: opacity 0.5s linear;
+
+        &.bottom {
+          display: none;
+          .tooltip-arrow {
+            left: 85%;
+            border-bottom-color: $brand-danger;
+          }
+        }
+
+        &.left {
+          display: none;
+          right: 90px;
+          margin-top: -26px;
+          .tooltip-arrow {
+            border-left-color: $brand-danger;
+          }
+        }
+
+        @media (min-width: 768px) {
+          &.bottom {
+            right: 5px;
+            margin-top: 0px;
+            display: block;
+          }
+        }
+
+        @media (max-width: 767px) {
+          &.left {
+            display: block;
+          }
+        }
+
+        &.show-error {
+          opacity: 90;
+        }
+
+        .tooltip-inner {
+          background-color: $brand-danger;
+        }
       }
     }
   }
