@@ -23,6 +23,15 @@ class App extends Component {
   getUserDetails() {
     var token = Storage.loadAccessToken()
     this.props.dispatch(userActions.getUserDetails(token.token_type, token.access_token))
+    this.props.dispatch(userActions.getUserStatus(token.token_type, token.access_token))
+  }
+
+  userHasLoggedIn(oldProps, newProps) {
+    return (!oldProps.authentication.isAuthenticated && newProps.authentication.isAuthenticated)
+  }
+
+  userHasLoggedOut(oldProps, newProps) {
+    return (oldProps.authentication.isAuthenticated && !newProps.authentication.isAuthenticated)
   }
 
   componentDidMount() {
@@ -31,19 +40,19 @@ class App extends Component {
   }
 
   componentWillUpdate(nextProps) {
-    if (!this.props.authentication.isAuthenticated && nextProps.authentication.isAuthenticated) {
+    if (this.userHasLoggedIn(this.props, nextProps)) {
       Storage.saveAccessToken(nextProps.authentication.access_token)
       this.getUserDetails()
     }
 
-    if (this.props.authentication.isAuthenticated && !nextProps.authentication.isAuthenticated) {
+    if (this.userHasLoggedOut(this.props, nextProps)) {
       Storage.deleteAccessToken()
       this.getUserDetails()
     }
   }
 
   render() {
-    const { dispatch, user, authentication } = this.props
+    const { dispatch, user, authentication, userStatuses } = this.props
     return (
       <div>
         <Navbar
@@ -58,13 +67,15 @@ class App extends Component {
 
 App.propTypes = {
   user: PropTypes.object.isRequired,
+  statusList: PropTypes.any,
   authentication: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
   return {
     user: state.userDetails,
-    authentication: state.userAuth
+    authentication: state.userAuth,
+    userStatuses: state.userStatus
   }
 }
 

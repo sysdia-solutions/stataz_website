@@ -25,4 +25,10 @@ defmodule StatazWebsite.Router do
 
     post "/", AuthController, :create
   end
+
+  scope "/user", StatazWebsite do
+    pipe_through :api
+
+    get "/", UserController, :show
+  end
 end

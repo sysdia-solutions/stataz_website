@@ -1,58 +1,58 @@
 import * as ActionTypes from '../constants/ActionTypes'
 import fetch from 'isomorphic-fetch'
 
-export function requestUserSignOut() {
+function basicPayload(actionType) {
   return {
-    type: ActionTypes.REQUEST_USER_SIGN_OUT
+    type: actionType
   }
+}
+
+function jsonResultPayload(actionType, payload) {
+  return {
+    type: actionType,
+    status: payload.status,
+    result: payload.data
+  }
+}
+
+export function requestUserSignOut() {
+  return basicPayload(ActionTypes.REQUEST_USER_SIGN_OUT)
 }
 
 export function receiveUserSignOut() {
-  return {
-    type: ActionTypes.RECEIVE_USER_SIGN_OUT
-  }
+  return basicPayload(ActionTypes.RECEIVE_USER_SIGN_OUT)
 }
 
 export function requestUserSignIn() {
-  return {
-    type: ActionTypes.REQUEST_USER_SIGN_IN
-  }
+  return basicPayload(ActionTypes.REQUEST_USER_SIGN_IN)
 }
 
 export function receiveUserSignIn(payload) {
-  return {
-    type: ActionTypes.RECEIVE_USER_SIGN_IN,
-    status: payload.status,
-    result: payload.data
-  }
+  return jsonResultPayload(ActionTypes.RECEIVE_USER_SIGN_IN, payload)
 }
 
 export function requestUserAuthCheck() {
-  return {
-    type: ActionTypes.REQUEST_USER_AUTH_CHECK
-  }
+  return basicPayload(ActionTypes.REQUEST_USER_AUTH_CHECK)
 }
 
 export function receiveUserAuthCheck(payload) {
-  return {
-    type: ActionTypes.RECEIVE_USER_AUTH_CHECK,
-    status: payload.status,
-    result: payload.data
-  }
+  return jsonResultPayload(ActionTypes.RECEIVE_USER_AUTH_CHECK, payload)
 }
 
 export function requestUserDetails() {
-  return {
-    type: ActionTypes.REQUEST_USER_DETAILS
-  }
+  return basicPayload(ActionTypes.REQUEST_USER_DETAILS)
 }
 
 export function receiveUserDetails(payload) {
-  return {
-    type: ActionTypes.RECEIVE_USER_DETAILS,
-    status: payload.status,
-    result: payload.data
-  }
+  return jsonResultPayload(ActionTypes.RECEIVE_USER_DETAILS, payload)
+}
+
+export function requestUserStatus() {
+  return basicPayload(ActionTypes.REQUEST_USER_STATUS)
+}
+
+export function receiveUserStatus(payload) {
+  return jsonResultPayload(ActionTypes.RECEIVE_USER_STATUS, payload)
 }
 
 function handleResponse(json) {
@@ -100,19 +100,6 @@ function apiUserSignIn(username, password) {
   }
 }
 
-function apiGetUserDetails(token_type, access_token) {
-  return dispatch => {
-    dispatch(requestUserDetails())
-    return fetch(api_endpoint + "/user", {
-      method: 'GET',
-      headers: getHeaders(token_type, access_token)
-    })
-    .then(response => response.json())
-    .then(response => handleResponse(response))
-    .then(json => dispatch(receiveUserDetails(json)))
-  }
-}
-
 function apiUserSignOut(token_type, access_token) {
   return dispatch => {
     dispatch(requestUserSignOut())
@@ -137,6 +124,32 @@ function apiAuthCheckUser(token_type, access_token) {
   }
 }
 
+function apiGetUserDetails(token_type, access_token) {
+  return dispatch => {
+    dispatch(requestUserDetails())
+    return fetch(local_endpoint + "/user", {
+      method: 'GET',
+      headers: getHeaders(token_type, access_token)
+    })
+    .then(response => response.json())
+    .then(response => handleResponse(response))
+    .then(json => dispatch(receiveUserDetails(json)))
+  }
+}
+
+function apiGetUserStatus(token_type, access_token) {
+  return dispatch => {
+    dispatch(requestUserStatus())
+    return fetch(api_endpoint + "/status", {
+      method: 'GET',
+      headers: getHeaders(token_type, access_token)
+    })
+    .then(response => response.json())
+    .then(response => handleResponse(response))
+    .then(json => dispatch(receiveUserStatus(json)))
+  }
+}
+
 export function signInUser(username, password) {
   return (dispatch, getState) => {
     return dispatch(apiUserSignIn(username, password))
@@ -158,5 +171,11 @@ export function authCheckUser(token_type, access_token) {
 export function getUserDetails(token_type, access_token) {
   return (dispatch, getState) => {
     return dispatch(apiGetUserDetails(token_type, access_token))
+  }
+}
+
+export function getUserStatus(token_type, access_token) {
+  return (dispatch, getState) => {
+    return dispatch(apiGetUserStatus(token_type, access_token))
   }
 }

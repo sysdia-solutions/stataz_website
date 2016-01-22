@@ -93,9 +93,41 @@ function userDetails(state = defaultUserState, action) {
   }
 }
 
+function receiveUserStatus(state, status, payload) {
+  var details = {}
+  if (status === "success") {
+    details = {
+      statuses: payload
+    }
+  }
+  return Object.assign({}, state, {
+    isFetching: false,
+    details: details
+  })
+}
+
+var defaultUserStatusState = {
+  isFetching: false,
+  status: {}
+}
+
+function userStatus(state = defaultUserStatusState, action) {
+  switch(action.type) {
+    case ActionTypes.REQUEST_USER_STATUS:
+      return Object.assign({}, state, {
+        isFetching: true
+      })
+    case ActionTypes.RECEIVE_USER_STATUS:
+      return receiveUserStatus(state, action.status, action.result)
+    default:
+      return state
+  }
+}
+
 const userReducer = combineReducers({
   userAuth,
-  userDetails
+  userDetails,
+  userStatus
 })
 
 export default userReducer
