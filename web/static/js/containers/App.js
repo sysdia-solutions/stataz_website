@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import * as userActions from '../actions/UserActions'
 import Navbar from '../components/Navbar'
+import HomeBanner from '../components/HomeBanner'
 import * as Storage from '../utils/Storage'
 
 class App extends Component {
@@ -60,6 +61,9 @@ class App extends Component {
           authentication = { authentication }
           onSignInClick = { this.handleSignIn }
           onSignOutClick = { this.handleSignOut } />
+        <div className="container content">
+          <HomeBanner user = { user } />
+        </div>
       </div>
     )
   }
@@ -67,7 +71,7 @@ class App extends Component {
 
 App.propTypes = {
   user: PropTypes.object.isRequired,
-  statusList: PropTypes.any,
+  statusList: PropTypes.arrayOf(PropTypes.object),
   authentication: PropTypes.object.isRequired
 }
 

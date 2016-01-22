@@ -66,7 +66,8 @@ function receiveUserDetails(state, status, payload) {
   if (status === "success") {
     details = {
       username: payload.username,
-      email: payload.email
+      email: payload.email,
+      status_history: payload.status_history
     }
   }
   return Object.assign({}, state, {
