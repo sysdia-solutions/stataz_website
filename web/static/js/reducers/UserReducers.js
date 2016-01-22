@@ -5,19 +5,24 @@ function authenticateUser(state, type, status, payload) {
   var access_token = {}
   var authenticated = false
   var failed = false
+  var errors = {}
   if (status === "success") {
     authenticated = true
     access_token = {access_token: payload.access_token,
                     expires_in: payload.expires_in,
                     token_type: payload.token_type}
+  } else {
+    errors = payload
+    if (type == ActionTypes.RECEIVE_USER_SIGN_IN) {
+      failed = true
+    }
   }
-  if (type === ActionTypes.RECEIVE_USER_SIGN_IN && status === "error") {
-    failed = true
-  }
+
   return Object.assign({}, state, {
     isProcessing: false,
     hasProcessed: true,
     hasFailed: failed,
+    errors: errors,
     isAuthenticated: authenticated,
     access_token: access_token
   })
@@ -28,34 +33,45 @@ var defaultAuthState = {
   isAuthenticated: false,
   hasProcessed: false,
   hasFailed: false,
+  errors: {},
   access_token: {}
 }
 
 function userAuth(state = defaultAuthState, action) {
   switch(action.type) {
+
     case ActionTypes.REQUEST_USER_SIGN_IN:
+    case ActionTypes.REQUEST_USER_SIGN_UP:
       return Object.assign({}, state, {
         isProcessing: true,
         hasFailed: false,
+        errors: {}
       })
+
     case ActionTypes.RECEIVE_USER_SIGN_IN:
+    case ActionTypes.RECEIVE_USER_SIGN_UP:
       return authenticateUser(state, action.type, action.status, action.result)
+
     case ActionTypes.REQUEST_USER_SIGN_OUT:
       return Object.assign({}, state, {
         isProcessing: true
       })
+
     case ActionTypes.RECEIVE_USER_SIGN_OUT:
       return Object.assign({}, state, {
         isProcessing: false,
         isAuthenticated: false,
         access_token: {}
       })
+
     case ActionTypes.REQUEST_USER_AUTH_CHECK:
       return Object.assign({}, state, {
         isProcessing: true
       })
+
     case ActionTypes.RECEIVE_USER_AUTH_CHECK:
       return authenticateUser(state, action.type, action.status, action.result)
+
     default:
       return state
   }
@@ -66,7 +82,8 @@ function receiveUserDetails(state, status, payload) {
   if (status === "success") {
     details = {
       username: payload.username,
-      email: payload.email
+      email: payload.email,
+      status_history: payload.status_history
     }
   }
   return Object.assign({}, state, {

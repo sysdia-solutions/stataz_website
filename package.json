@@ -3,6 +3,7 @@
   "dependencies": {
     "bootstrap-sass": "^3.3.6",
     "classnames": "^2.2.3",
+    "dateformat-light": "^1.0.14",
     "isomorphic-fetch": "^2.2.1",
     "react": "^0.14.6",
     "react-bootstrap": "^0.28.2",

@@ -2,20 +2,7 @@ defmodule StatazWebsite.AuthController do
   use StatazWebsite.Web, :controller
 
   def create(conn, params) do
-    data = {:form,
-             [
-               username: params["username"],
-               password: params["password"],
-               client_id: Application.get_env(:stataz_website, :api_client_id),
-               grant_type: "password"
-             ]
-           }
-
-    headers = %{"Content-Type" => "application/json",
-                "Accept" => "application/json"}
-
-    Application.get_env(:stataz_website, :api_endpoint) <> "/auth"
-    |> HTTPoison.post(data, headers)
+    StatazWebsite.Auth.password_authenticate(conn, params["username"], params["password"])
     |> create_response(conn)
   end
 
@@ -25,7 +12,7 @@ defmodule StatazWebsite.AuthController do
                     |> Poison.decode()
       conn
       |> put_status(:created)
-      |> render("show.json", access_token: body["data"])
+      |> render(StatazWebsite.AuthView, "show.json", access_token: body["data"])
     else
       create_response({:error, ""}, conn)
     end
@@ -34,6 +21,6 @@ defmodule StatazWebsite.AuthController do
   defp create_response({:error, reason}, conn) do
     conn
     |> put_status(:unauthorized)
-    |> render("error.json", error: reason)
+    |> render(StatazWebsite.AuthView, "error.json", error: reason)
   end
 end

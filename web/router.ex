@@ -30,5 +30,6 @@ defmodule StatazWebsite.Router do
     pipe_through :api
 
     get "/", UserController, :show
+    post "/", UserController, :create
   end
 end
