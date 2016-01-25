@@ -10,6 +10,7 @@ class App extends Component {
     super(props)
     this.handleSignIn = this.handleSignIn.bind(this)
     this.handleSignOut = this.handleSignOut.bind(this)
+    this.handleSignUp = this.handleSignUp.bind(this)
   }
 
   handleSignIn(username, password) {
@@ -19,6 +20,10 @@ class App extends Component {
   handleSignOut() {
     var token = Storage.loadAccessToken()
     this.props.dispatch(userActions.signOutUser(token.token_type, token.access_token))
+  }
+
+  handleSignUp(username, password, email) {
+    this.props.dispatch(userActions.signUpUser(username, password, email))
   }
 
   getUserDetails() {
@@ -62,7 +67,10 @@ class App extends Component {
           onSignInClick = { this.handleSignIn }
           onSignOutClick = { this.handleSignOut } />
         <div className="container content">
-          <HomeBanner user = { user } />
+          <HomeBanner
+            user = { user }
+            authentication = { authentication }
+            onSignUpClick = { this.handleSignUp } />
         </div>
       </div>
     )

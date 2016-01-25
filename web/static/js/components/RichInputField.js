@@ -4,6 +4,7 @@ import classNames from 'classnames'
 export default class RichInputField extends Component {
   render() {
     var formGroupClass = classNames({
+      "rich-input-field": true,
       "form-group": true,
       "has-feedback": this.props.hasFeedback
     })
@@ -26,6 +27,7 @@ export default class RichInputField extends Component {
         <div className="input-group">
           <span className="input-group-addon"><i className={addonIconClass}/></span>
           <input
+            ref={this.props.name}
             type={this.props.inputType}
             className="form-control"
             aria-describedby={"create" + this.props.name}

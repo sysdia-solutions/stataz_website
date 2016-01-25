@@ -12,7 +12,11 @@ export default class HomeBanner extends Component {
       )
     } else {
       return (
-        <UserCreate />
+        <UserCreate
+          usernameErrors={this.props.authentication.errors.username}
+          passwordErrors={this.props.authentication.errors.password}
+          emailErrors={this.props.authentication.errors.email}
+          onSignUpClick={this.props.onSignUpClick} />
       )
     }
   }
@@ -34,5 +38,7 @@ export default class HomeBanner extends Component {
 }
 
 HomeBanner.propTypes = {
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  authentication: PropTypes.object.isRequired,
+  onSignUpClick: PropTypes.func.isRequired
 }
