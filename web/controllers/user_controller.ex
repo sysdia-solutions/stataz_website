@@ -11,6 +11,57 @@ defmodule StatazWebsite.UserController do
     |> user_response(conn)
   end
 
+  def create(conn, params) do
+    data = {:form,
+             [
+               username: params["username"],
+               password: params["password"],
+               email: params["email"]
+             ]
+           }
+
+    headers = %{"Content-Type" => "application/json",
+                "Accept" => "application/json"}
+
+    Application.get_env(:stataz_website, :api_endpoint) <> "/user"
+    |> HTTPoison.post(data, headers)
+    |> create_response(conn, params)
+  end
+
+  defp create_response({:ok, response}, conn, params) do
+    if response.status_code == 201 do
+      StatazWebsite.Auth.password_authenticate(conn, params["username"], params["password"])
+      |> auth_response(conn)
+    else
+      conn
+      |> send_resp(response.status_code, response.body)
+    end
+  end
+
+  defp create_response({:error, reason}, conn, _params) do
+    conn
+    |> put_status(:bad_request)
+    |> render("error.json", error: reason)
+  end
+
+  defp auth_response({:ok, response}, conn) do
+    if response.status_code == 201 do
+      {:ok, body} = response.body
+                    |> Poison.decode()
+      conn
+      |> put_status(:created)
+      |> render(StatazWebsite.AuthView, "show.json", access_token: body["data"])
+    else
+      auth_response({:error, ""}, conn)
+    end
+  end
+
+  defp auth_response({:error, reason}, conn) do
+    conn
+    |> put_status(:unauthorized)
+    |> render(StatazWebsite.AuthView, "error.json", error: reason)
+  end
+
   defp respond_error(error, conn) do
     conn
     |> put_status(:unauthorized)

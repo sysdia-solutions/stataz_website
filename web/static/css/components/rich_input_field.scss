@@ -1,0 +1,17 @@
+.rich-input-field {
+  .help-block {
+    margin-top: 0px;
+    font-size: 0.85em;
+    text-align: right;
+    padding-right: 10px;
+    opacity: 0;
+    transition: opacity 0.5s linear;
+  }
+
+  &.has-error,
+  &.has-success {
+    .help-block {
+      opacity: 1;
+    }
+  }
+}

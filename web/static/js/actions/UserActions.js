@@ -31,6 +31,14 @@ export function receiveUserSignIn(payload) {
   return jsonResultPayload(ActionTypes.RECEIVE_USER_SIGN_IN, payload)
 }
 
+export function requestUserSignUp() {
+  return basicPayload(ActionTypes.REQUEST_USER_SIGN_UP)
+}
+
+export function receiveUserSignUp(payload) {
+  return jsonResultPayload(ActionTypes.RECEIVE_USER_SIGN_UP, payload)
+}
+
 export function requestUserAuthCheck() {
   return basicPayload(ActionTypes.REQUEST_USER_AUTH_CHECK)
 }
@@ -111,6 +119,24 @@ function apiUserSignOut(token_type, access_token) {
   }
 }
 
+function apiUserSignUp(username, password, email) {
+  return dispatch => {
+    dispatch(requestUserSignUp())
+    return fetch(local_endpoint + '/user', {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify({
+        username: username,
+        password: password,
+        email: email
+      })
+    })
+    .then(response => response.json())
+    .then(response => handleResponse(response))
+    .then(json => dispatch(receiveUserSignUp(json)))
+  }
+}
+
 function apiAuthCheckUser(token_type, access_token) {
   return dispatch => {
     dispatch(requestUserAuthCheck())
@@ -159,6 +185,12 @@ export function signInUser(username, password) {
 export function signOutUser(token_type, access_token) {
   return (dispatch, getState) => {
     return dispatch(apiUserSignOut(token_type, access_token))
+  }
+}
+
+export function signUpUser(username, password, email) {
+  return (dispatch, getState) => {
+    return dispatch(apiUserSignUp(username, password, email))
   }
 }
 
