@@ -13,6 +13,8 @@ export default class HomeBanner extends Component {
     } else {
       return (
         <UserCreate
+          authenticated={this.props.authentication.isAuthenticated}
+          processed={this.props.authentication.hasProcessed}
           usernameErrors={this.props.authentication.errors.username}
           passwordErrors={this.props.authentication.errors.password}
           emailErrors={this.props.authentication.errors.email}

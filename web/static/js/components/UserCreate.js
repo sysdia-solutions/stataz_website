@@ -17,6 +17,10 @@ export default class UserCreate extends Component {
   }
 
   render() {
+    if (!this.props.processed || this.props.authenticated) {
+      return(<div/>)
+    }
+
     return (
       <form>
         <RichInputField ref="username" name="username" inputType="text" addonIcon="fa-user"
@@ -45,6 +49,8 @@ export default class UserCreate extends Component {
 }
 
 UserCreate.propTypes = {
+  authenticated: PropTypes.bool.isRequired,
+  processed: PropTypes.bool.isRequired,
   usernameErrors: PropTypes.array,
   passwordErrors: PropTypes.array,
   emailErrors: PropTypes.array,
