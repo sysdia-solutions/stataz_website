@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import Username from './Username'
 
 export default class UserSnippet extends Component {
   render() {
@@ -7,7 +8,7 @@ export default class UserSnippet extends Component {
       <div className="user-snippet navbar-right">
         <div className="user-details img-rounded">
           <img className="img-rounded" src={gravitar} />
-          <a href="#" className="username">{this.props.username}</a>
+          <Username username={this.props.username} />
           <a href="#" onClick={e=> {
             e.preventDefault()
             this.props.onSignOutClick()

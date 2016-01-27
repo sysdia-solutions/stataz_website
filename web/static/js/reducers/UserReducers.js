@@ -125,7 +125,7 @@ function receiveUserStatus(state, status, payload) {
 
 var defaultUserStatusState = {
   isFetching: false,
-  status: {}
+  details: {}
 }
 
 function userStatus(state = defaultUserStatusState, action) {

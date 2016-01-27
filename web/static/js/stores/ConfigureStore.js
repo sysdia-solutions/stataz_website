@@ -1,7 +1,8 @@
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import createLogger from 'redux-logger'
 import userReducer from '../reducers/UserReducers'
+import profileReducer from '../reducers/ProfileReducers'
 
 const loggerMiddleware = createLogger()
 
@@ -10,6 +11,11 @@ const createStoreWithMiddleware = applyMiddleware(
   loggerMiddleware
 )(createStore)
 
+const appReducers = combineReducers({
+  userReducer,
+  profileReducer
+})
+
 export default function configureStore(initialState) {
-  return createStoreWithMiddleware(userReducer, initialState)
+  return createStoreWithMiddleware(appReducers, initialState)
 }

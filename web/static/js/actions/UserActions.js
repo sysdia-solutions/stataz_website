@@ -1,19 +1,7 @@
 import * as ActionTypes from '../constants/ActionTypes'
 import fetch from 'isomorphic-fetch'
-
-function basicPayload(actionType) {
-  return {
-    type: actionType
-  }
-}
-
-function jsonResultPayload(actionType, payload) {
-  return {
-    type: actionType,
-    status: payload.status,
-    result: payload.data
-  }
-}
+import { basicPayload, jsonResultPayload,
+         handleResponse, getHeaders } from './Utility'
 
 export function requestUserSignOut() {
   return basicPayload(ActionTypes.REQUEST_USER_SIGN_OUT)
@@ -61,34 +49,6 @@ export function requestUserStatus() {
 
 export function receiveUserStatus(payload) {
   return jsonResultPayload(ActionTypes.RECEIVE_USER_STATUS, payload)
-}
-
-function handleResponse(json) {
-  if (json.data) {
-    return {
-      status: "success",
-      data: json.data
-    }
-  } else {
-    return {
-      status: "error",
-      data: json.errors
-    }
-  }
-}
-
-function getHeaders(token_type = null, access_token = null) {
-  var default_headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  }
-  var auth_headers = {}
-  if (token_type && access_token) {
-    auth_headers = {
-      'Authorization': token_type.ucfirst() + ' ' + access_token
-    }
-  }
-  return Object.assign(default_headers, auth_headers)
 }
 
 function apiUserSignIn(username, password) {
