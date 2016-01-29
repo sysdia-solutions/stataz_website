@@ -1,6 +1,6 @@
 import * as ActionTypes from '../constants/ActionTypes'
 import fetch from 'isomorphic-fetch'
-import { basicPayload, jsonResultPayload,
+import { basicPayload, jsonResultPayload, buildURL,
          handleResponse, getHeaders } from './Utility'
 
 export function requestProfile() {
@@ -14,7 +14,8 @@ export function receiveProfile(payload) {
 function apiFetchProfile(username) {
   return dispatch => {
     dispatch(requestProfile())
-    return fetch(api_endpoint + "/status/" + username, {
+    var url = buildURL("GET", api_endpoint, "status/" + username)
+    return fetch(url, {
       method: 'GET',
       headers: getHeaders()
     })
@@ -29,4 +30,3 @@ export function fetchProfile(username) {
     return dispatch(apiFetchProfile(username))
   }
 }
-

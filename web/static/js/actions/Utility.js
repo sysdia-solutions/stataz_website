@@ -39,3 +39,11 @@ export function getHeaders(token_type = null, access_token = null) {
   }
   return Object.assign(default_headers, auth_headers)
 }
+
+export function buildURL(type, endpoint, route) {
+  var url = endpoint + "/" + route
+  if (type === "GET") {
+    url += "?" + new Date().getTime()
+  }
+  return url
+}
