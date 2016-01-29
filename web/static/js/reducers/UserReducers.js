@@ -119,12 +119,14 @@ function receiveUserStatus(state, status, payload) {
   }
   return Object.assign({}, state, {
     isFetching: false,
+    isStale: false,
     details: details
   })
 }
 
 var defaultUserStatusState = {
   isFetching: false,
+  isStale: false,
   details: {}
 }
 
@@ -136,6 +138,15 @@ function userStatus(state = defaultUserStatusState, action) {
       })
     case ActionTypes.RECEIVE_USER_STATUS:
       return receiveUserStatus(state, action.status, action.result)
+    case ActionTypes.REQUEST_USER_SET_STATUS:
+      return Object.assign({}, state, {
+        isFetching: true
+      })
+    case ActionTypes.RECEIVE_USER_SET_STATUS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        isStale: true
+      })
     default:
       return state
   }

@@ -1,6 +1,6 @@
 import * as ActionTypes from '../constants/ActionTypes'
 import fetch from 'isomorphic-fetch'
-import { basicPayload, jsonResultPayload,
+import { basicPayload, jsonResultPayload, buildURL,
          handleResponse, getHeaders } from './Utility'
 
 export function requestUserSignOut() {
@@ -51,10 +51,19 @@ export function receiveUserStatus(payload) {
   return jsonResultPayload(ActionTypes.RECEIVE_USER_STATUS, payload)
 }
 
+export function requestUserSetStatus() {
+  return basicPayload(ActionTypes.REQUEST_USER_SET_STATUS)
+}
+
+export function receiveUserSetStatus() {
+  return basicPayload(ActionTypes.RECEIVE_USER_SET_STATUS)
+}
+
 function apiUserSignIn(username, password) {
   return dispatch => {
     dispatch(requestUserSignIn())
-    return fetch(local_endpoint + '/auth', {
+    var url = buildURL("POST", local_endpoint, "auth")
+    return fetch(url, {
       method: 'POST',
       headers: getHeaders(),
       body: JSON.stringify({
@@ -71,7 +80,8 @@ function apiUserSignIn(username, password) {
 function apiUserSignOut(token_type, access_token) {
   return dispatch => {
     dispatch(requestUserSignOut())
-    return fetch(api_endpoint + "/auth", {
+    var url = buildURL("DELETE", api_endpoint, "auth")
+    return fetch(url, {
       method: 'DELETE',
       headers: getHeaders(token_type, access_token)
     })
@@ -82,7 +92,8 @@ function apiUserSignOut(token_type, access_token) {
 function apiUserSignUp(username, password, email) {
   return dispatch => {
     dispatch(requestUserSignUp())
-    return fetch(local_endpoint + '/user', {
+    var url = buildURL("POST", local_endpoint, "user")
+    return fetch(url, {
       method: 'POST',
       headers: getHeaders(),
       body: JSON.stringify({
@@ -100,7 +111,8 @@ function apiUserSignUp(username, password, email) {
 function apiAuthCheckUser(token_type, access_token) {
   return dispatch => {
     dispatch(requestUserAuthCheck())
-    return fetch(api_endpoint + "/auth", {
+    var url = buildURL("GET", api_endpoint, "auth")
+    return fetch(url, {
       method: 'GET',
       headers: getHeaders(token_type, access_token)
     })
@@ -113,7 +125,8 @@ function apiAuthCheckUser(token_type, access_token) {
 function apiGetUserDetails(token_type, access_token) {
   return dispatch => {
     dispatch(requestUserDetails())
-    return fetch(local_endpoint + "/user", {
+    var url = buildURL("GET", local_endpoint, "user")
+    return fetch(url, {
       method: 'GET',
       headers: getHeaders(token_type, access_token)
     })
@@ -126,13 +139,27 @@ function apiGetUserDetails(token_type, access_token) {
 function apiGetUserStatus(token_type, access_token) {
   return dispatch => {
     dispatch(requestUserStatus())
-    return fetch(api_endpoint + "/status", {
+    var url = buildURL("GET", api_endpoint, "status")
+    return fetch(url, {
       method: 'GET',
       headers: getHeaders(token_type, access_token)
     })
     .then(response => response.json())
     .then(response => handleResponse(response))
     .then(json => dispatch(receiveUserStatus(json)))
+  }
+}
+
+function apiUserSetStatus(id, token_type, access_token) {
+  return dispatch => {
+    dispatch(requestUserSetStatus())
+    var url = buildURL("PUT", api_endpoint, "status/" + id)
+    return fetch(url, {
+      method: 'PUT',
+      headers: getHeaders(token_type, access_token),
+      body: JSON.stringify({active: true})
+    })
+    .then(dispatch(receiveUserSetStatus()))
   }
 }
 
@@ -169,5 +196,11 @@ export function getUserDetails(token_type, access_token) {
 export function getUserStatus(token_type, access_token) {
   return (dispatch, getState) => {
     return dispatch(apiGetUserStatus(token_type, access_token))
+  }
+}
+
+export function setUserStatus(id, token_type, access_token) {
+  return (dispatch, getState) => {
+    return dispatch(apiUserSetStatus(id, token_type, access_token))
   }
 }
