@@ -17,6 +17,7 @@ class Navbar extends Component {
   getUserDetails() {
     var token = Storage.loadAccessToken()
     this.props.dispatch(userActions.getUserDetails(token.token_type, token.access_token))
+    this.props.dispatch(userActions.getUserStatus(token.token_type, token.access_token))
   }
 
   userHasLoggedIn(oldProps, newProps) {

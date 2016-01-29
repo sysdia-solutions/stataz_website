@@ -47,6 +47,7 @@ class Profile extends Component {
 
   getUserDetails(token) {
     this.props.dispatch(userActions.getUserDetails(token.token_type, token.access_token))
+    this.props.dispatch(userActions.authCheckUser(token.token_type, token.access_token))
   }
 
   getUserStatuses(token) {
