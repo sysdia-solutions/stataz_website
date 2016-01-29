@@ -133,20 +133,22 @@ var defaultUserStatusState = {
 function userStatus(state = defaultUserStatusState, action) {
   switch(action.type) {
     case ActionTypes.REQUEST_USER_STATUS:
+    case ActionTypes.REQUEST_USER_SET_STATUS:
+    case ActionTypes.REQUEST_USER_DELETE_STATUS:
       return Object.assign({}, state, {
         isFetching: true
       })
+
     case ActionTypes.RECEIVE_USER_STATUS:
       return receiveUserStatus(state, action.status, action.result)
-    case ActionTypes.REQUEST_USER_SET_STATUS:
-      return Object.assign({}, state, {
-        isFetching: true
-      })
+
     case ActionTypes.RECEIVE_USER_SET_STATUS:
+    case ActionTypes.RECEIVE_USER_DELETE_STATUS:
       return Object.assign({}, state, {
         isFetching: false,
         isStale: true
       })
+
     default:
       return state
   }

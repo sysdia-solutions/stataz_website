@@ -21,6 +21,8 @@ class Profile extends Component {
   }
 
   handleDeleteStatus(id) {
+    var token = Storage.loadAccessToken()
+    this.props.dispatch(userActions.deleteUserStatus(id, token.token_type, token.access_token))
   }
 
   hasUserChanged(oldProps, newProps) {
