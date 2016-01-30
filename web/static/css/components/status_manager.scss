@@ -1,0 +1,18 @@
+.status-manager {
+  form {
+    .btn {
+      vertical-align: top;
+      border-top-left-radius: 0px;
+      border-bottom-left-radius: 0px;
+      height: 34px;
+    }
+
+    .rich-input-field {
+      .help-block {
+        opacity: 1;
+        text-align: left;
+        padding-left: 13px;
+      }
+    }
+  }
+}

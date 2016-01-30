@@ -6,7 +6,7 @@ import * as Formatter from '../utils/Format'
 
 export default class UserStatus extends Component {
   renderHistory(statuses) {
-    if(this.props.full_history && statuses.length > 0) {
+    if(this.props.fullHistory && statuses.length > 0) {
      return (
       <div>
         <h4>has previously been...</h4>
@@ -28,12 +28,12 @@ export default class UserStatus extends Component {
   }
 
   render() {
-    var since = Formatter.formatDate(this.props.status_history[0].since, Formatter.defaultDateFormat)
-    var history = this.props.status_history.slice(1)
+    var since = Formatter.formatDate(this.props.statusHistory[0].since, Formatter.defaultDateFormat)
+    var history = this.props.statusHistory.slice(1)
     return (
       <div>
         <h1><Username username={this.props.username} /></h1>
-        <h2>is {this.props.status_history[0].status}</h2>
+        <h2>is {this.props.statusHistory[0].status}</h2>
         <h3>since {since}</h3>
         {this.renderHistory(history)}
       </div>
@@ -43,6 +43,6 @@ export default class UserStatus extends Component {
 
 UserStatus.propTypes = {
   username: PropTypes.string.isRequired,
-  status_history: PropTypes.arrayOf(PropTypes.object).isRequired,
-  full_history: PropTypes.bool.isRequired
+  statusHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
+  fullHistory: PropTypes.bool.isRequired
 }

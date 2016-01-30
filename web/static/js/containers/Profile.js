@@ -13,6 +13,8 @@ class Profile extends Component {
     super(props)
     this.handleSetStatus = this.handleSetStatus.bind(this)
     this.handleDeleteStatus = this.handleDeleteStatus.bind(this)
+    this.handleAddStatus = this.handleAddStatus.bind(this)
+    this.handleAddStatusType = this.handleAddStatusType.bind(this)
   }
 
   handleSetStatus(id) {
@@ -25,12 +27,21 @@ class Profile extends Component {
     this.props.dispatch(userActions.deleteUserStatus(id, token.token_type, token.access_token))
   }
 
+  handleAddStatus(text) {
+    var token = Storage.loadAccessToken()
+    this.props.dispatch(userActions.addUserStatus(text, token.token_type, token.access_token))
+  }
+
+  handleAddStatusType(text) {
+    this.props.dispatch(profileActions.addStatusFieldOnChange(text))
+  }
+
   hasUserChanged(oldProps, newProps) {
     return (oldProps.params.username != newProps.params.username)
   }
 
   hasStatusChanged(oldProps, newProps) {
-    return (newProps.user_status.isStale && !oldProps.user_status.isStale)
+    return (newProps.userStatus.isStale && !oldProps.userStatus.isStale)
   }
 
   isUserProfile() {
@@ -54,6 +65,7 @@ class Profile extends Component {
 
   getUserStatuses(token) {
     this.props.dispatch(userActions.getUserStatus(token.token_type, token.access_token))
+    this.props.dispatch(profileActions.addStatusFieldOnChange(""))
   }
 
   refreshState() {
@@ -86,20 +98,23 @@ class Profile extends Component {
       <div className={colSize}>
         <UserStatus
           username={this.props.params.username}
-          status_history={this.props.profile.details.statuses}
-          full_history={true}/>
+          statusHistory={this.props.profile.details.statuses}
+          fullHistory={true}/>
       </div>
     )
   }
 
   renderUpdateStatus(allowed) {
-    if (allowed && this.props.user_status.details.statuses) {
+    if (allowed && this.props.userStatus.details.statuses) {
       return (
         <div className="col-md-4">
           <StatusManager
-            statuses={this.props.user_status.details.statuses}
+            statuses={this.props.userStatus.details.statuses}
+            elementStatus={this.props.addStatusField}
             onSetStatusClick={this.handleSetStatus}
-            onDeleteStatusClick={this.handleDeleteStatus} />
+            onDeleteStatusClick={this.handleDeleteStatus}
+            onAddStatusClick={this.handleAddStatus}
+            onAddStatusType={this.handleAddStatusType} />
         </div>
       )
     }
@@ -150,7 +165,8 @@ function mapStateToProps(state) {
   return {
     user: state.userReducer.userDetails,
     profile: state.profileReducer.profileDetails,
-    user_status: state.userReducer.userStatus
+    userStatus: state.userReducer.userStatus,
+    addStatusField: state.profileReducer.addStatusField
   }
 }
 

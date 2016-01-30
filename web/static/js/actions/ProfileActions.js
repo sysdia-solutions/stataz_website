@@ -11,6 +11,13 @@ export function receiveProfile(payload) {
   return jsonResultPayload(ActionTypes.RECEIVE_PROFILE, payload)
 }
 
+export function addStatusFieldOnChange(text) {
+  return {
+    type: ActionTypes.ADD_STATUS_FIELD_ON_CHANGE,
+    description: text
+  }
+}
+
 function apiFetchProfile(username) {
   return dispatch => {
     dispatch(requestProfile())

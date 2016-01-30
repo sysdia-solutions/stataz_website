@@ -2,6 +2,16 @@ import React, { Component, PropTypes } from 'react'
 import classNames from 'classnames'
 
 export default class RichInputField extends Component {
+  renderAddonIcon(type) {
+    if (type && type !== "") {
+    var addonIconClass = "fa fa-lg fa-fw " + type
+      return (
+        <span className="input-group-addon"><i className={addonIconClass}/></span>
+      )
+    }
+    return
+  }
+
   render() {
     var formGroupClass = classNames({
       "rich-input-field": true,
@@ -10,8 +20,6 @@ export default class RichInputField extends Component {
     })
 
     formGroupClass += " " + this.props.feedbackType
-
-    var addonIconClass = "fa fa-lg fa-fw " + this.props.addonIcon
 
     var feedbackIcons = {
       "": "",
@@ -25,18 +33,27 @@ export default class RichInputField extends Component {
     return (
       <div className={formGroupClass}>
         <div className="input-group">
-          <span className="input-group-addon"><i className={addonIconClass}/></span>
+          {this.renderAddonIcon(this.props.addonIcon)}
           <input
             ref={this.props.name}
             type={this.props.inputType}
             className="form-control"
-            aria-describedby={"create" + this.props.name}
-            placeholder={this.props.placeholder} />
+            aria-describedby={"field_" + this.props.name}
+            placeholder={this.props.placeholder}
+            maxLength={this.props.maxLength}
+            onChange={() => this.handleOnChange()}/>
         </div>
-        <span id={"create" + this.props.name} className="help-block">{this.props.helptext}</span>
+        <span id={"field_" + this.props.name} className="help-block">{this.props.helptext}</span>
         <span className={feedbackIconClass} aria-hidden="true"></span>
       </div>
     )
+  }
+
+  handleOnChange() {
+    if (this.props.onTextChange) {
+      const text = this.refs[this.props.name].value.trim()
+      this.props.onTextChange(text)
+    }
   }
 }
 
@@ -47,5 +64,7 @@ RichInputField.propTypes = {
   placeholder: PropTypes.string.isRequired,
   helptext: PropTypes.string.isRequired,
   hasFeedback: PropTypes.bool,
-  feedbackType: PropTypes.string
+  feedbackType: PropTypes.string,
+  maxLength: PropTypes.number,
+  onTextChange: PropTypes.func
 }

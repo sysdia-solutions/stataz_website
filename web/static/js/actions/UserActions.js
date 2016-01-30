@@ -67,6 +67,14 @@ export function receiveUserDeleteStatus() {
   return basicPayload(ActionTypes.RECEIVE_USER_DELETE_STATUS)
 }
 
+export function requestUserAddStatus() {
+  return basicPayload(ActionTypes.REQUEST_USER_ADD_STATUS)
+}
+
+export function receiveUserAddStatus() {
+  return basicPayload(ActionTypes.RECEIVE_USER_ADD_STATUS)
+}
+
 function apiUserSignIn(username, password) {
   return dispatch => {
     dispatch(requestUserSignIn())
@@ -183,6 +191,19 @@ function apiUserDeleteStatus(id, token_type, access_token) {
   }
 }
 
+function apiUserAddStatus(text, token_type, access_token) {
+  return dispatch => {
+    dispatch(requestUserAddStatus())
+    var url = buildURL("POST", api_endpoint, "status")
+    return fetch(url, {
+      method: 'POST',
+      headers: getHeaders(token_type, access_token),
+      body: JSON.stringify({description: text})
+    })
+    .then(dispatch(receiveUserAddStatus()))
+  }
+}
+
 export function signInUser(username, password) {
   return (dispatch, getState) => {
     return dispatch(apiUserSignIn(username, password))
@@ -228,5 +249,11 @@ export function setUserStatus(id, token_type, access_token) {
 export function deleteUserStatus(id, token_type, access_token) {
   return (dispatch, getState) => {
     return dispatch(apiUserDeleteStatus(id, token_type, access_token))
+  }
+}
+
+export function addUserStatus(text, token_type, access_token) {
+  return (dispatch, getState) => {
+    return dispatch(apiUserAddStatus(text, token_type, access_token))
   }
 }

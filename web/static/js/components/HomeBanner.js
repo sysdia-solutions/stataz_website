@@ -8,8 +8,8 @@ export default class HomeBanner extends Component {
       return (
         <UserStatus
           username={this.props.user.details.username}
-          status_history={this.props.user.details.status_history} 
-          full_history={false} />
+          statusHistory={this.props.user.details.status_history} 
+          fullHistory={false} />
       )
     } else {
       return (
