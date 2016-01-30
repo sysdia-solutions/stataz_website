@@ -8,7 +8,7 @@ export default class UserStatus extends Component {
   renderHistory(statuses) {
     if(this.props.fullHistory && statuses.length > 0) {
      return (
-      <div>
+      <div class="status-history">
         <h4>has previously been...</h4>
         <ul>
           {
@@ -31,10 +31,14 @@ export default class UserStatus extends Component {
     var since = Formatter.formatDate(this.props.statusHistory[0].since, Formatter.defaultDateFormat)
     var history = this.props.statusHistory.slice(1)
     return (
-      <div>
-        <h1><Username username={this.props.username} /></h1>
-        <h2>is {this.props.statusHistory[0].status}</h2>
-        <h3>since {since}</h3>
+      <div className="user-status">
+        <h1 title={this.props.username}>
+          <Username username={this.props.username} />
+        </h1>
+        <h2 title={this.props.statusHistory[0].status}>
+          <span className="prefix">is</span> {this.props.statusHistory[0].status}
+        </h2>
+        <h3><span className="prefix">since</span> {since}</h3>
         {this.renderHistory(history)}
       </div>
     )

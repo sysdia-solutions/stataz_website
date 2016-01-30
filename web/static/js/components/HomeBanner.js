@@ -28,8 +28,9 @@ export default class HomeBanner extends Component {
     return (
       <div className="jumbotron home-block">
         <div className="row">
-          <div className="col-md-8">
-            <h1>Hello</h1>
+          <div className="col-md-8 text-block">
+            <h1>Welcome to Stataz</h1>
+            <h2>Let the world know what you're doing</h2>
           </div>
           <div className="col-md-4 data-block">
             {this.renderUserBlock()}

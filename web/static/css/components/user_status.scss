@@ -1,0 +1,31 @@
+.user-status {
+  text-align: center;
+  a {
+    color: $brand-info;
+  }
+
+  h1 {
+    font-size: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: $brand-info;
+  }
+
+  h2 {
+    .prefix {
+      font-size: 70%;
+      font-weight: normal;
+    }
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  h3 {
+    .prefix {
+      display: block;
+      text-transform: capitalize;
+      font-weight: normal;
+    }
+    font-size: 14px;
+  }
+}

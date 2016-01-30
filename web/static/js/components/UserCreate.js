@@ -35,6 +35,7 @@ export default class UserCreate extends Component {
         <button onClick={(e) => this.handleClick(e)} className="btn btn-lg btn-primary pull-right" type="submit">
           Sign up for stataz
         </button>
+        <div className="clearfix" />
       </form>
     )
   }

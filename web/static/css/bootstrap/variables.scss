@@ -3,6 +3,7 @@ $brand-success: #A5C882;
 $brand-info: #7896B4;
 $brand-warning: #C4A381;
 $brand-danger: #B2675E;
+$brand-primary-dark: #34495E;
 
 $white: #FFFFFF;
 
@@ -13,4 +14,4 @@ $white: #FFFFFF;
 /*$gray-light: lighten($gray-base, 46.7%);*/
 /*$gray-lighter: lighten($gray-base, 93.5%);*/
 
-$navbar-inverse-bg: #34495E;
+$navbar-inverse-bg: $brand-primary-dark;

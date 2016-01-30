@@ -1,8 +1,11 @@
-@import "bootstrap/variables.scss/";
+@import "bootstrap/variables.scss";
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 @import "bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 
-@import "bootstrap/overrides.scss/";
-@import "components/user_snippet.scss/";
-@import "components/rich_input_field.scss/";
-@import "components/status_manager.scss/";
+@import "bootstrap/overrides.scss";
+@import "components/user_snippet.scss";
+@import "components/rich_input_field.scss";
+@import "components/status_manager.scss";
+@import "components/user_status.scss";
+
+@import "components/home_banner.scss";
