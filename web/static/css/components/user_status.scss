@@ -45,16 +45,13 @@
 
     li {
       color: $gray-light;
+      display: inline-block;
       font-size: 13px;
 
-      &:before {
-        content: "\25BA";
-        padding-right: 5px;
-      }
-
-      &:after {
-        content: "\25C4";
+      &:not(:last-child):after {
+        content: "|";
         padding-left: 5px;
+        padding-right: 5px;
       }
     }
   }
