@@ -7,6 +7,7 @@ import * as Storage from '../utils/Storage'
 import MainContent from '../components/MainContent'
 import UserStatus from '../components/UserStatus'
 import StatusManager from '../components/StatusManager'
+import PendingBlock from '../components/PendingBlock'
 
 class Profile extends Component {
   constructor(props) {
@@ -141,7 +142,7 @@ class Profile extends Component {
   renderPage() {
     if (this.props.profile.isFetching) {
       return (
-        <div>fetching</div>
+        <PendingBlock height="363px" fontSize="32px" />
       )
     } else {
       return (

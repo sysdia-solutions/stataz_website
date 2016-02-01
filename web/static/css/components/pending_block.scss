@@ -1,0 +1,12 @@
+.pending-block {
+  background-color: $gray-lighter;
+  display: table;
+  width: 100%;
+  border-radius: $block-border-radius;
+
+  .spinner {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+  }
+}
