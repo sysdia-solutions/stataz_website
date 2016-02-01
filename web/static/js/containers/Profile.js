@@ -93,9 +93,9 @@ class Profile extends Component {
   }
 
   renderUserStatus(withUpdate) {
-    var colSize = (withUpdate ? "col-md-8" : "col-md-12")
+    var className = "profile-block section-block " + (withUpdate ? "col-md-8" : "col-md-12")
     return (
-      <div className={colSize}>
+      <div className={className}>
         <UserStatus
           username={this.props.params.username}
           statusHistory={this.props.profile.details.statuses}
@@ -107,7 +107,7 @@ class Profile extends Component {
   renderUpdateStatus(allowed) {
     if (allowed && this.props.userStatus.details.statuses) {
       return (
-        <div className="col-md-4">
+        <div className="status-manager-block section-block col-md-4">
           <StatusManager
             statuses={this.props.userStatus.details.statuses}
             elementStatus={this.props.addStatusField}
@@ -124,9 +124,11 @@ class Profile extends Component {
   renderProfile() {
     if (this.isProfileValid()) {
       return (
-        <div className="row">
-          {this.renderUserStatus(this.isUserProfile())}
-          {this.renderUpdateStatus(this.isUserProfile())}
+        <div className="profile-section">
+          <div className="row">
+            {this.renderUserStatus(this.isUserProfile())}
+            {this.renderUpdateStatus(this.isUserProfile())}
+          </div>
         </div>
       )
     } else {

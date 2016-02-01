@@ -1,0 +1,31 @@
+.profile-section {
+  .row {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
+  .section-block {
+    border-radius: $block-border-radius;
+    padding: 20px 25px;
+
+    @media (max-width: 991px) {
+      &:not(:first-child) {
+        margin-top: 20px;
+      }
+    }
+  }
+
+  .profile-block {
+    background-color: $brand-primary;
+  }
+
+  .status-manager-block {
+    background-color: $brand-success;
+    padding-right: 10px;
+
+    @media (min-width: 992px) {
+      margin-left: 20px;
+      width: calc(33.3333% - 20px);
+    }
+  }
+}

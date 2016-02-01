@@ -7,5 +7,7 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 @import "components/rich_input_field.scss";
 @import "components/status_manager.scss";
 @import "components/user_status.scss";
-
 @import "components/home_banner.scss";
+@import "components/user_create.scss";
+
+@import "containers/profile.scss";

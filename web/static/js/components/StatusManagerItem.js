@@ -1,18 +1,22 @@
 import React, { Component, PropTypes } from 'react'
 
 export default class StatusManagerItem extends Component {
-  renderActiveState(id, state) {
+  renderDescription(id, state) {
     var icon = (state ? "dot-circle-o" : "circle-o" )
-    var classStyle = "fa fa-" + icon
+    var classStyle = "active-status-icon fa fa-" + icon
 
     return (
-      <i className={classStyle} onClick={(e) => this.handleSetStatus(e, id, state)}/>
+      <div className="status-description" onClick={(e) => this.handleSetStatus(e, id, state)}>
+        <i className={classStyle} />{ this.props.description }
+      </div>
     )
   }
 
   renderDeleteStatus(id) {
     return (
-      <i className="fa fa-trash" onClick={(e) => this.handleDeleteStatus(e, id)}/>
+      <button className="btn" onClick={(e) => this.handleDeleteStatus(e, id)}>
+        <i className="fa fa-trash" />
+      </button>
     )
   }
 
@@ -29,10 +33,10 @@ export default class StatusManagerItem extends Component {
   }
 
   render() {
+    var activeClass = (this.props.active ? "active" : "")
     return (
-      <li>
-        { this.props.description }
-        { this.renderActiveState(this.props.id, this.props.active) }
+      <li className={activeClass}>
+        { this.renderDescription(this.props.id, this.props.active) }
         { !this.props.active ? this.renderDeleteStatus(this.props.id) : false }
       </li>
     )

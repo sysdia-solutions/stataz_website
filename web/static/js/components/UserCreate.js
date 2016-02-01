@@ -22,7 +22,7 @@ export default class UserCreate extends Component {
     }
 
     return (
-      <form>
+      <form className="user-create-form">
         <RichInputField ref="username" name="username" inputType="text" addonIcon="fa-user"
                         placeholder="Enter a username" helptext={this.getError(this.props.usernameErrors)}
                         hasFeedback={true} feedbackType={this.inError(this.props.usernameErrors)} />
