@@ -18,7 +18,7 @@ export default class StatusManager extends Component {
           <ul>
             {
               this.props.statuses.sort((a, b) => {
-                  return a.id - b.id
+                  return b.id - a.id
                 }).map((result) => {
                 return (
                   <StatusManagerItem
