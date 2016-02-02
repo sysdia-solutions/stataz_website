@@ -18,13 +18,14 @@
     margin-right: 15px;
 
     li {
-      padding: 5px 10px;
+      padding: 0px;
+      padding-left: 10px;
       padding-right: 0px;
       font-size: 20px;
       border-bottom: 1px solid $white;
       color: $white;
       cursor: pointer;
-      height: 56px;
+      height: 50px;
 
       &.active {
         background-color: $white;
@@ -36,10 +37,11 @@
       .status-description {
         width: calc(100% - 50px);
         float: left;
-        margin-top: 8px;
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
+        height: 50px;
+        padding-top: 12px;
 
         span {
           padding-right: 10px;
@@ -56,6 +58,7 @@
         border-left: 1px solid $white;
         font-size: 20px;
         margin-left: 6px;
+        margin-top: 3px;
 
         &:hover {
           color: $gray-lighter;
@@ -65,7 +68,7 @@
   }
 
   form {
-    margin-top: 19px;
+    margin-top: 23px;
     margin-right: 15px;
 
     .btn {
