@@ -14,6 +14,17 @@ function receiveProfileDetails(state, status, payload) {
   })
 }
 
+function receiveProfileFollowDetails(state, status, payload) {
+  var data = {}
+  if (status === "success") {
+    data = payload
+  }
+  return Object.assign({}, state, {
+    isFetching: false,
+    data: data
+  })
+}
+
 var defaultProfileState = {
   isFetching: false,
   details: {}
@@ -67,9 +78,28 @@ function addStatusField(state = defaultStatusFieldState, action) {
   }
 }
 
+var defaultFollowState = {
+  isFetching: false,
+  data: {}
+}
+
+function profileFollowDetails(state = defaultFollowState, action) {
+  switch(action.type) {
+    case ActionTypes.REQUEST_PROFILE_GET_FOLLOW:
+      return Object.assign({}, state, {
+        isFetching: true
+      })
+    case ActionTypes.RECEIVE_PROFILE_GET_FOLLOW:
+      return receiveProfileFollowDetails(state, action.status, action.result)
+    default:
+      return state
+  }
+}
+
 const profileReducer = combineReducers({
   profileDetails,
-  addStatusField
+  addStatusField,
+  profileFollowDetails
 })
 
 export default profileReducer

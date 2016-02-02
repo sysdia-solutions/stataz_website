@@ -16,6 +16,8 @@ class Profile extends Component {
     this.handleDeleteStatus = this.handleDeleteStatus.bind(this)
     this.handleAddStatus = this.handleAddStatus.bind(this)
     this.handleAddStatusType = this.handleAddStatusType.bind(this)
+    this.handleFollowClick = this.handleFollowClick.bind(this)
+    this.handleUnfollowClick = this.handleUnfollowClick.bind(this)
   }
 
   handleSetStatus(id) {
@@ -31,6 +33,16 @@ class Profile extends Component {
   handleAddStatus(text) {
     var token = Storage.loadAccessToken()
     this.props.dispatch(userActions.addUserStatus(text, token.token_type, token.access_token))
+  }
+
+  handleFollowClick(username) {
+    var token = Storage.loadAccessToken()
+    this.props.dispatch(userActions.userFollow(username, token.token_type, token.access_token))
+  }
+
+  handleUnfollowClick(username) {
+    var token = Storage.loadAccessToken()
+    this.props.dispatch(userActions.userUnfollow(username, token.token_type, token.access_token))
   }
 
   handleAddStatusType(text) {
@@ -55,8 +67,33 @@ class Profile extends Component {
             this.props.profile.details.statuses instanceof Array)
   }
 
+  isUserFollowing() {
+    if (! this.props.user.details ||
+        ! this.props.follows.data ||
+        ! this.props.follows.data.followers) {
+      return false
+    }
+
+    var currentUser = this.props.user.details.username
+    return (this.props.follows.data.followers.some((follower) => {
+              return (follower.username === currentUser)
+            }))
+  }
+
+  isUserSignedIn() {
+    return (this.props.user.details && this.props.user.details.username !== undefined)
+  }
+
   fetchProfile(username) {
     this.props.dispatch(profileActions.fetchProfile(username))
+  }
+
+  fetchProfileFollow(username, token) {
+    if (this.isUserProfile()) {
+      this.props.dispatch(profileActions.fetchUserFollow(token.token_type, token.access_token))
+    } else {
+      this.props.dispatch(profileActions.fetchProfileFollow(username))
+    }
   }
 
   getUserDetails(token) {
@@ -75,20 +112,16 @@ class Profile extends Component {
     var token = Storage.loadAccessToken()
     this.getUserDetails(token)
     this.getUserStatuses(token)
+    this.fetchProfileFollow(this.props.params.username, token)
   }
 
   componentDidMount() {
     this.refreshState()
   }
 
-  componentWillUpdate(nextProps) {
-    if (this.hasUserChanged(this.props, nextProps)) {
-      this.refreshState()
-    }
-  }
-
   componentDidUpdate(prevProps) {
-    if (this.hasStatusChanged(prevProps, this.props)) {
+    if (this.hasUserChanged(prevProps, this.props) ||
+        this.hasStatusChanged(prevProps, this.props)) {
       this.refreshState()
     }
   }
@@ -100,7 +133,12 @@ class Profile extends Component {
         <UserStatus
           username={this.props.params.username}
           statusHistory={this.props.profile.details.statuses}
-          fullHistory={true}/>
+          fullHistory={true}
+          isFollowing={this.isUserFollowing()}
+          isUser={this.isUserProfile()}
+          isAuthenticated={this.isUserSignedIn()}
+          onFollowClick={this.handleFollowClick}
+          onUnfollowClick={this.handleUnfollowClick} />
       </div>
     )
   }
@@ -169,7 +207,8 @@ function mapStateToProps(state) {
     user: state.userReducer.userDetails,
     profile: state.profileReducer.profileDetails,
     userStatus: state.userReducer.userStatus,
-    addStatusField: state.profileReducer.addStatusField
+    addStatusField: state.profileReducer.addStatusField,
+    follows: state.profileReducer.profileFollowDetails
   }
 }
 

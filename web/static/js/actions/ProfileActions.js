@@ -11,6 +11,14 @@ export function receiveProfile(payload) {
   return jsonResultPayload(ActionTypes.RECEIVE_PROFILE, payload)
 }
 
+export function requestProfileGetFollow() {
+  return basicPayload(ActionTypes.REQUEST_PROFILE_GET_FOLLOW)
+}
+
+export function receiveProfileGetFollow(payload) {
+  return jsonResultPayload(ActionTypes.RECEIVE_PROFILE_GET_FOLLOW, payload)
+}
+
 export function addStatusFieldOnChange(text) {
   return {
     type: ActionTypes.ADD_STATUS_FIELD_ON_CHANGE,
@@ -32,8 +40,48 @@ function apiFetchProfile(username) {
   }
 }
 
+function apiFetchProfileFollow(username) {
+  return dispatch => {
+    dispatch(requestProfileGetFollow())
+    var url = buildURL("GET", api_endpoint, "follow/" + username)
+    return fetch(url, {
+      method: 'GET',
+      headers: getHeaders()
+    })
+    .then(response => response.json())
+    .then(response => handleResponse(response))
+    .then(json => dispatch(receiveProfileGetFollow(json)))
+  }
+}
+
+function apiFetchUserFollow(token_type, access_token) {
+  return dispatch => {
+    dispatch(requestProfileGetFollow())
+    var url = buildURL("GET", api_endpoint, "follow")
+    return fetch(url, {
+      method: 'GET',
+      headers: getHeaders(token_type, access_token)
+    })
+    .then(response => response.json())
+    .then(response => handleResponse(response))
+    .then(json => dispatch(receiveProfileGetFollow(json)))
+  }
+}
+
 export function fetchProfile(username) {
   return (dispatch, getState) => {
     return dispatch(apiFetchProfile(username))
+  }
+}
+
+export function fetchProfileFollow(username) {
+  return (dispatch, getState) => {
+    return dispatch(apiFetchProfileFollow(username))
+  }
+}
+
+export function fetchUserFollow(token_type, access_token) {
+  return (dispatch, getState) => {
+    return dispatch(apiFetchUserFollow(token_type, access_token))
   }
 }

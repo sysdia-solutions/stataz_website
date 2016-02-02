@@ -14,7 +14,7 @@ export default class StatusManager extends Component {
 
     return (
       <div className="status-manager">
-        <Scrollbars style={{ height: 250 }} className="items-scroll">
+        <Scrollbars style={{ height: 225 }} className="items-scroll">
           <ul>
             {
               this.props.statuses.sort((a, b) => {

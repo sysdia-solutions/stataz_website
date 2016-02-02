@@ -136,6 +136,8 @@ function userStatus(state = defaultUserStatusState, action) {
     case ActionTypes.REQUEST_USER_SET_STATUS:
     case ActionTypes.REQUEST_USER_DELETE_STATUS:
     case ActionTypes.REQUEST_USER_ADD_STATUS:
+    case ActionTypes.REQUEST_USER_FOLLOW:
+    case ActionTypes.REQUEST_USER_UNFOLLOW:
       return Object.assign({}, state, {
         isFetching: true
       })
@@ -146,6 +148,8 @@ function userStatus(state = defaultUserStatusState, action) {
     case ActionTypes.RECEIVE_USER_SET_STATUS:
     case ActionTypes.RECEIVE_USER_DELETE_STATUS:
     case ActionTypes.RECEIVE_USER_ADD_STATUS:
+    case ActionTypes.RECEIVE_USER_FOLLOW:
+    case ActionTypes.RECEIVE_USER_UNFOLLOW:
       return Object.assign({}, state, {
         isFetching: false,
         isStale: true

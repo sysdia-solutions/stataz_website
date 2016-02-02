@@ -75,6 +75,22 @@ export function receiveUserAddStatus() {
   return basicPayload(ActionTypes.RECEIVE_USER_ADD_STATUS)
 }
 
+export function requestUserFollow() {
+  return basicPayload(ActionTypes.REQUEST_USER_FOLLOW)
+}
+
+export function receiveUserFollow() {
+  return basicPayload(ActionTypes.RECEIVE_USER_FOLLOW)
+}
+
+export function requestUserUnfollow() {
+  return basicPayload(ActionTypes.REQUEST_USER_UNFOLLOW)
+}
+
+export function receiveUserUnfollow() {
+  return basicPayload(ActionTypes.RECEIVE_USER_UNFOLLOW)
+}
+
 function apiUserSignIn(username, password) {
   return dispatch => {
     dispatch(requestUserSignIn())
@@ -204,6 +220,30 @@ function apiUserAddStatus(text, token_type, access_token) {
   }
 }
 
+function apiUserFollow(username, token_type, access_token) {
+  return dispatch => {
+    dispatch(requestUserFollow())
+    var url = buildURL("POST", api_endpoint, "follow/" + username)
+    return fetch(url, {
+      method: 'POST',
+      headers: getHeaders(token_type, access_token)
+    })
+    .then(dispatch(receiveUserFollow()))
+  }
+}
+
+function apiUserUnfollow(username, token_type, access_token) {
+  return dispatch => {
+    dispatch(requestUserUnfollow())
+    var url = buildURL("DELETE", api_endpoint, "follow/" + username)
+    return fetch(url, {
+      method: 'DELETE',
+      headers: getHeaders(token_type, access_token)
+    })
+    .then(dispatch(receiveUserUnfollow()))
+  }
+}
+
 export function signInUser(username, password) {
   return (dispatch, getState) => {
     return dispatch(apiUserSignIn(username, password))
@@ -255,5 +295,17 @@ export function deleteUserStatus(id, token_type, access_token) {
 export function addUserStatus(text, token_type, access_token) {
   return (dispatch, getState) => {
     return dispatch(apiUserAddStatus(text, token_type, access_token))
+  }
+}
+
+export function userFollow(username, token_type, access_token) {
+  return (dispatch, getState) => {
+    return dispatch(apiUserFollow(username, token_type, access_token))
+  }
+}
+
+export function userUnfollow(username, token_type, access_token) {
+  return (dispatch, getState) => {
+    return dispatch(apiUserUnfollow(username, token_type, access_token))
   }
 }

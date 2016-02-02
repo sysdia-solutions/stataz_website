@@ -17,6 +17,6 @@ export default class PendingBlock extends Component {
 }
 
 PendingBlock.propTypes = {
-  height: PropTypes.string.isRequried,
+  height: PropTypes.string.isRequired,
   fontSize: PropTypes.string.isRequired
 }
