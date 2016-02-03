@@ -6,10 +6,12 @@ import profileReducer from '../reducers/ProfileReducers'
 
 const loggerMiddleware = createLogger()
 
-const createStoreWithMiddleware = applyMiddleware(
+const middleware = [
   thunkMiddleware,
-  loggerMiddleware
-)(createStore)
+  debug_mode && loggerMiddleware
+].filter(Boolean)
+
+const createStoreWithMiddleware = applyMiddleware(...middleware)(createStore)
 
 const appReducers = combineReducers({
   userReducer,
