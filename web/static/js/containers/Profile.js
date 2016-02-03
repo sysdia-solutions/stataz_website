@@ -7,6 +7,7 @@ import * as Storage from '../utils/Storage'
 import MainContent from '../components/MainContent'
 import UserStatus from '../components/UserStatus'
 import StatusManager from '../components/StatusManager'
+import FollowList from '../components/FollowList'
 import PendingBlock from '../components/PendingBlock'
 
 class Profile extends Component {
@@ -160,6 +161,20 @@ class Profile extends Component {
     return
   }
 
+  renderFollowBlock(type) {
+    if (!this.props.follows.data || this.props.follows.isFetching) {
+      return (
+        <PendingBlock height="360px" fontSize="32px" />
+      )
+    } else {
+      return (
+        <FollowList
+          title={type}
+          data={this.props.follows.data[type]} />
+      )
+    }
+  }
+
   renderProfile() {
     if (this.isProfileValid()) {
       return (
@@ -167,6 +182,14 @@ class Profile extends Component {
           <div className="row">
             {this.renderUserStatus(this.isUserProfile())}
             {this.renderUpdateStatus(this.isUserProfile())}
+          </div>
+          <div className="row">
+            <div className="section-block follow-block following-block col-md-6">
+              {this.renderFollowBlock("following")}
+            </div>
+            <div className="section-block follow-block followers-block col-md-6">
+              {this.renderFollowBlock("followers")}
+            </div>
           </div>
         </div>
       )

@@ -10,13 +10,17 @@
 
     @media (max-width: 991px) {
       &:not(:first-child) {
-        margin-top: 20px;
+        margin-top: $block-margin;
       }
     }
   }
 
   .profile-block {
     background-color: $brand-primary;
+
+    .user-status {
+      min-height: 302px;
+    }
   }
 
   .status-manager-block {
@@ -24,8 +28,20 @@
     padding-right: 10px;
 
     @media (min-width: 992px) {
-      margin-left: 20px;
-      width: calc(33.3333% - 20px);
+      margin-left: $block-margin;
+      width: calc(33.3333% - #{$block-margin});
+    }
+  }
+
+  .follow-block {
+    background-color: $brand-info;
+    min-height: 400px;
+  }
+
+  .followers-block {
+    @media (min-width: 992px) {
+      margin-left: $block-margin;
+      width: calc(50% - #{$block-margin});
     }
   }
 }
