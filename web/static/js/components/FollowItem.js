@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import Username from './Username'
+import Status from './Status'
 
 export default class FollowItem extends Component {
   render() {
@@ -7,7 +8,7 @@ export default class FollowItem extends Component {
       <li>
         <Username username={this.props.user.username} />
         <span> is </span>
-        {this.props.user.status}
+        <Status status={this.props.user.status} since={this.props.user.since} />
       </li>
     )
   }

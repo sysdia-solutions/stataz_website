@@ -1,12 +1,13 @@
 import React, { Component, PropTypes } from 'react'
+import Status from './Status'
 import * as Formatter from '../utils/Format'
 
 export default class StatusHistoryItem extends Component {
   render() {
-    var since = Formatter.formatDate(this.props.since, Formatter.defaultDateFormat)
-    var title = this.props.status + " since " + since
     return (
-      <li title={title}>{this.props.status}</li>
+      <li>
+        <Status status={this.props.status} since={this.props.since} />
+      </li>
     )
   }
 }

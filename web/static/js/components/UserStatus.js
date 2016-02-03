@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import Username from './Username'
+import Status from './Status'
 import StatusHistoryItem from './StatusHistoryItem'
 import * as Formatter from '../utils/Format'
 
@@ -52,7 +53,8 @@ export default class UserStatus extends Component {
           <Username username={this.props.username} />
         </h1>
         <h2 title={this.props.statusHistory[0].status}>
-          <span className="prefix">is</span> {this.props.statusHistory[0].status}
+          <span className="prefix">is </span>
+          <Status status={this.props.statusHistory[0].status} since={this.props.statusHistory[0].since} />
         </h2>
         {this.renderFollowButton()}
         <h3><span className="prefix">since</span> {since}</h3>
