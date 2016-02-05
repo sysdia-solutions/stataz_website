@@ -78,6 +78,27 @@ function addStatusField(state = defaultStatusFieldState, action) {
   }
 }
 
+var defaultDeleteModalState = {
+  open: false,
+  id: null,
+  text: ""
+}
+
+function confirmDeleteModal(state = defaultDeleteModalState, action) {
+  switch(action.type) {
+    case ActionTypes.CONFIRM_STATUS_DELETE:
+      return {
+        open: true,
+        id: action.id,
+        text: action.text
+      }
+    case ActionTypes.HIDE_CONFIRM_STATUS_DELETE:
+      return defaultDeleteModalState
+    default:
+      return state
+  }
+}
+
 var defaultFollowState = {
   isFetching: false,
   data: {}
@@ -99,7 +120,8 @@ function profileFollowDetails(state = defaultFollowState, action) {
 const profileReducer = combineReducers({
   profileDetails,
   addStatusField,
-  profileFollowDetails
+  profileFollowDetails,
+  confirmDeleteModal
 })
 
 export default profileReducer

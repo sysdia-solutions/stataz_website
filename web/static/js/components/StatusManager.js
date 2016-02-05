@@ -1,5 +1,6 @@
 import React, { Component, PropTypes} from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
+import { Modal } from 'react-bootstrap'
 import StatusManagerItem from './StatusManagerItem'
 import RichInputField from './RichInputField'
 
@@ -27,7 +28,7 @@ export default class StatusManager extends Component {
                     description={result.description}
                     active={result.active}
                     onSetStatusClick={this.props.onSetStatusClick}
-                    onDeleteStatusClick={this.props.onDeleteStatusClick} />
+                    onDeleteStatusClick={this.props.onConfirmDeleteStatusClick} />
                 )
               })
             }
@@ -43,8 +44,26 @@ export default class StatusManager extends Component {
             <span>Add</span> <i className="fa fa-plus" />
           </button>
         </form>
+        <Modal show={this.props.deleteModalData.open} onHide={this.props.closeDeleteConfirmModal}>
+          <Modal.Header>
+            <Modal.Title>Delete '{this.props.deleteModalData.text}' Status</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>Are you sure you want to delete status '{this.props.deleteModalData.text}'?
+            <br />The status cannot be restored when it has been deleted.</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <button onClick={this.props.closeDeleteConfirmModal} className="btn btn-link">Cancel</button>
+            <button onClick={(e) => this.handleConfirmDeleteClick(e)} className="btn btn-danger">Delete</button>
+          </Modal.Footer>
+        </Modal>
       </div>
     )
+  }
+
+  handleConfirmDeleteClick(e) {
+    e.preventDefault()
+    this.props.onDeleteStatusClick(this.props.deleteModalData.id)
   }
 
   handleAddStatusClick(e) {
@@ -58,7 +77,10 @@ StatusManager.propTypes = {
   statuses: PropTypes.arrayOf(PropTypes.object).isRequired,
   elementStatus: PropTypes.object.isRequired,
   onSetStatusClick: PropTypes.func.isRequired,
+  onConfirmDeleteStatusClick: PropTypes.func.isRequired,
   onDeleteStatusClick: PropTypes.func.isRequired,
   onAddStatusClick: PropTypes.func.isRequired,
-  onAddStatusType: PropTypes.func.isRequired
+  onAddStatusType: PropTypes.func.isRequired,
+  deleteModalData: PropTypes.object.isRequired,
+  closeDeleteConfirmModal: PropTypes.func.isRequired
 }

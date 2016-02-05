@@ -26,6 +26,20 @@ export function addStatusFieldOnChange(text) {
   }
 }
 
+export function confirmDeleteStatus(id, text) {
+  return {
+    type: ActionTypes.CONFIRM_STATUS_DELETE,
+    id: id,
+    text: text
+  }
+}
+
+export function hideConfirmDeleteStatus() {
+  return {
+    type: ActionTypes.HIDE_CONFIRM_STATUS_DELETE
+  }
+}
+
 function apiFetchProfile(username) {
   return dispatch => {
     dispatch(requestProfile())

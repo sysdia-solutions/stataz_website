@@ -108,3 +108,10 @@ nav {
 .row {
   margin-bottom: $block-margin;
 }
+
+body.modal-open{
+  width:100%!important;
+  padding-right:0!important;
+  overflow-y:auto!important;
+  position:fixed!important;
+}

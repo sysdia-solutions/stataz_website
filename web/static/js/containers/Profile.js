@@ -19,6 +19,8 @@ class Profile extends Component {
     this.handleAddStatusType = this.handleAddStatusType.bind(this)
     this.handleFollowClick = this.handleFollowClick.bind(this)
     this.handleUnfollowClick = this.handleUnfollowClick.bind(this)
+    this.handleConfirmDeleteStatusModal = this.handleConfirmDeleteStatusModal.bind(this)
+    this.handleHideDeleteStatusModal = this.handleHideDeleteStatusModal.bind(this)
   }
 
   handleSetStatus(id) {
@@ -26,7 +28,16 @@ class Profile extends Component {
     this.props.dispatch(userActions.setUserStatus(id, token.token_type, token.access_token))
   }
 
+  handleConfirmDeleteStatusModal(id, text) {
+    this.props.dispatch(profileActions.confirmDeleteStatus(id, text))
+  }
+
+  handleHideDeleteStatusModal() {
+    this.props.dispatch(profileActions.hideConfirmDeleteStatus())
+  }
+
   handleDeleteStatus(id) {
+    this.handleHideDeleteStatusModal()
     var token = Storage.loadAccessToken()
     this.props.dispatch(userActions.deleteUserStatus(id, token.token_type, token.access_token))
   }
@@ -152,9 +163,13 @@ class Profile extends Component {
             statuses={this.props.userStatus.details.statuses}
             elementStatus={this.props.addStatusField}
             onSetStatusClick={this.handleSetStatus}
+            onConfirmDeleteStatusClick={this.handleConfirmDeleteStatusModal}
             onDeleteStatusClick={this.handleDeleteStatus}
             onAddStatusClick={this.handleAddStatus}
-            onAddStatusType={this.handleAddStatusType} />
+            onAddStatusType={this.handleAddStatusType}
+            deleteModalData={this.props.statusDeleteModal}
+            closeDeleteConfirmModal={this.handleHideDeleteStatusModal}
+            />
         </div>
       )
     }
@@ -231,7 +246,8 @@ function mapStateToProps(state) {
     profile: state.profileReducer.profileDetails,
     userStatus: state.userReducer.userStatus,
     addStatusField: state.profileReducer.addStatusField,
-    follows: state.profileReducer.profileFollowDetails
+    follows: state.profileReducer.profileFollowDetails,
+    statusDeleteModal: state.profileReducer.confirmDeleteModal
   }
 }
 
