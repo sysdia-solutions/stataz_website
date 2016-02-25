@@ -2,7 +2,7 @@ import React, { Component, PropTypes, createElement } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 
 export default class DataList extends Component {
-  render_item(data, index) {
+  renderItem(data, index) {
     return createElement(this.props.itemElement, {key: index, id: index, data: data})
   }
 
@@ -23,7 +23,7 @@ export default class DataList extends Component {
             {
               this.props.data.map((result, index) => {
                 return (
-                  this.render_item(result, index)
+                  this.renderItem(result, index)
                 )
               })
             }

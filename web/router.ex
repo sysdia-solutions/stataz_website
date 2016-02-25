@@ -18,6 +18,7 @@ defmodule StatazWebsite.Router do
 
     get "/", PageController, :index
     get "/profile/:username", PageController, :index
+    get "/search/:query", PageController, :index
   end
 
   # Other scopes may use custom stacks.

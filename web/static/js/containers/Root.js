@@ -8,6 +8,7 @@ import configureStore from '../stores/ConfigureStore'
 import Layout from '../components/Layout'
 import Home from './Home'
 import Profile from './Profile'
+import Search from './Search'
 
 const store = configureStore()
 
@@ -19,6 +20,7 @@ export default class Root extends Component {
           <Route path="/" component={Layout}>
             <IndexRoute component={Home} />
             <Route path="/profile/:username" component={Profile} />
+            <Route path="/search/:query" component={Search} />
           </Route>
         </Router>
       </Provider>

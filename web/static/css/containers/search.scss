@@ -1,0 +1,26 @@
+.search-section {
+  .section-block {
+    background-color: $brand-info;
+    color: $white;
+
+    a {
+      color: $white;
+    }
+  }
+
+  .search-results-block {
+    background-color: $brand-primary;
+    color: $white;
+
+    h1 {
+      margin: 0px;
+    }
+  }
+
+  .status-search-block {
+    @media (min-width: 992px) {
+      margin-left: $block-margin;
+      width: calc(50% - #{$block-margin});
+    }
+  }
+}
