@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 
 export default class Status extends Component {
   render() {
-    var since = this.props.status + " since " + this.props.since
+    var since = (this.props.since ? this.props.status + " since " + this.props.since : "")
     return (
       <span title={since} >{this.props.status}</span>
     )
@@ -11,5 +11,5 @@ export default class Status extends Component {
 
 Status.propTypes = {
   status: PropTypes.string.isRequired,
-  since: PropTypes.string.isRequired
+  since: PropTypes.string
 }
