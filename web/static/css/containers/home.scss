@@ -1,0 +1,27 @@
+.list-section {
+  .top-list-block {
+    background-color: $brand-info;
+    min-height: 300px;
+    color: $white;
+
+    a {
+      color: $white;
+    }
+
+    ul {
+      li {
+        &:before {
+          content: "\27A4 ";
+        }
+      }
+    }
+  }
+
+  .recent-activity,
+  .popular-stataz {
+    @media (min-width: 992px) {
+      margin-left: $block-margin;
+      width: calc(33.3% - #{$block-margin});
+    }
+  }
+}

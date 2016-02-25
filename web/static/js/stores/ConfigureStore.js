@@ -3,6 +3,7 @@ import thunkMiddleware from 'redux-thunk'
 import createLogger from 'redux-logger'
 import userReducer from '../reducers/UserReducers'
 import profileReducer from '../reducers/ProfileReducers'
+import listReducer from '../reducers/ListReducers'
 
 const loggerMiddleware = createLogger()
 
@@ -15,7 +16,8 @@ const createStoreWithMiddleware = applyMiddleware(...middleware)(createStore)
 
 const appReducers = combineReducers({
   userReducer,
-  profileReducer
+  profileReducer,
+  listReducer
 })
 
 export default function configureStore(initialState) {

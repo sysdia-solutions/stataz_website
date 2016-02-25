@@ -10,7 +10,9 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 @import "components/home_banner.scss";
 @import "components/user_create.scss";
 @import "components/pending_block.scss";
-@import "components/follow_list.scss";
+@import "components/data_list.scss";
 @import "components/scrollbars.scss";
 
+@import "containers/general.scss";
+@import "containers/home.scss";
 @import "containers/profile.scss";

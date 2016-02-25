@@ -1,0 +1,17 @@
+.page-section {
+  .row {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
+  .section-block {
+    border-radius: $block-border-radius;
+    padding: 20px 25px;
+
+    @media (max-width: 991px) {
+      &:not(:first-child) {
+        margin-top: $block-margin;
+      }
+    }
+  }
+}

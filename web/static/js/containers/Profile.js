@@ -7,7 +7,8 @@ import * as Storage from '../utils/Storage'
 import MainContent from '../components/MainContent'
 import UserStatus from '../components/UserStatus'
 import StatusManager from '../components/StatusManager'
-import FollowList from '../components/FollowList'
+import DataList from '../components/DataList'
+import UserStatusItem from '../components/UserStatusItem'
 import PendingBlock from '../components/PendingBlock'
 
 class Profile extends Component {
@@ -182,10 +183,15 @@ class Profile extends Component {
         <PendingBlock height="360px" fontSize="32px" />
       )
     } else {
+      var sortedData = this.props.follows.data[type].sort((a, b) => {
+        return a.since - b.since
+      })
       return (
-        <FollowList
-          title={type}
-          data={this.props.follows.data[type]} />
+        <DataList title={type}
+                  data={sortedData}
+                  contentHeight={200}
+                  itemElement={UserStatusItem}
+                  noDataMessage="No users found" />
       )
     }
   }
@@ -193,7 +199,7 @@ class Profile extends Component {
   renderProfile() {
     if (this.isProfileValid()) {
       return (
-        <div className="profile-section">
+        <div className="page-section profile-section">
           <div className="row">
             {this.renderUserStatus(this.isUserProfile())}
             {this.renderUpdateStatus(this.isUserProfile())}

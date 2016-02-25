@@ -1,20 +1,4 @@
 .profile-section {
-  .row {
-    margin-left: 0px;
-    margin-right: 0px;
-  }
-
-  .section-block {
-    border-radius: $block-border-radius;
-    padding: 20px 25px;
-
-    @media (max-width: 991px) {
-      &:not(:first-child) {
-        margin-top: $block-margin;
-      }
-    }
-  }
-
   .profile-block {
     background-color: $brand-primary;
 
@@ -35,7 +19,22 @@
 
   .follow-block {
     background-color: $brand-info;
-    min-height: 400px;
+    min-height: 300px;
+    color: $white;
+
+    a {
+      color: $white;
+    }
+
+    ul {
+      li {
+        font-size: 20px;
+
+        &:before {
+          content: "\27A4 ";
+        }
+      }
+    }
   }
 
   .followers-block {

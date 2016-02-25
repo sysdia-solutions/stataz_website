@@ -1,14 +1,9 @@
-.follow-list {
-  color: $white;
-
-  a {
-    color: $white;
-  }
-
+.data-list {
   h1 {
     margin: 0px 0px 20px;
     font-size: 30px;
     font-weight: normal;
+    text-transform: capitalize;
   }
 
   ul {
@@ -16,13 +11,7 @@
     padding-left: 0px;
 
     li {
-      font-size: 20px;
-
-      &:before {
-        content: "\27A4 ";
-      }
-
-      &.no-users {
+      &.no-data {
         font-style: italic;
 
         &:before {
