@@ -43,7 +43,8 @@ export function getHeaders(token_type = null, access_token = null) {
 export function buildURL(type, endpoint, route) {
   var url = endpoint + "/" + route
   if (type === "GET") {
-    url += "?" + performance.now()
+    var prefix = (url.indexOf("?") >= 0 ? "&" : "?")
+    url += prefix + performance.now()
   }
   return url
 }
