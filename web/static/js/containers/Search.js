@@ -12,9 +12,19 @@ class Search extends Component {
     super(props)
   }
 
+  refreshResults(query) {
+    this.props.dispatch(searchActions.searchUser(query))
+    this.props.dispatch(searchActions.searchStatus(query))
+  }
+
   componentWillMount() {
-    this.props.dispatch(searchActions.searchUser(this.props.params.query))
-    this.props.dispatch(searchActions.searchStatus(this.props.params.query))
+    this.refreshResults(this.props.params.query)
+  }
+
+  componentWillUpdate(nextProps) {
+    if (this.props.params.query != nextProps.params.query) {
+      this.refreshResults(nextProps.params.query)
+    }
   }
 
   renderResults() {

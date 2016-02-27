@@ -6,12 +6,14 @@ import * as Storage from '../utils/Storage'
 
 import UserSignIn from '../components/UserSignIn'
 import UserSnippet from '../components/UserSnippet'
+import SearchBox from '../components/SearchBox'
 
 class Navbar extends Component {
   constructor(props) {
     super(props)
     this.handleSignIn = this.handleSignIn.bind(this)
     this.handleSignOut = this.handleSignOut.bind(this)
+    this.handleSearch = this.handleSearch.bind(this)
   }
 
   getUserDetails() {
@@ -54,6 +56,12 @@ class Navbar extends Component {
     this.props.dispatch(userActions.signOutUser(token.token_type, token.access_token))
   }
 
+  handleSearch(query) {
+    if (query.length > 0) {
+      this.props.history.pushState(null, "/search/" + query)
+    }
+  }
+
   renderUserArea() {
     if (this.props.user.details && this.props.user.details.username) {
       return (
@@ -92,6 +100,7 @@ class Navbar extends Component {
           </div>
           <div id="navbar" className="navbar-collapse collapse">
             {this.renderUserArea()}
+            <SearchBox onSearchClick={this.handleSearch}/>
           </div>
         </div>
       </nav>
@@ -101,7 +110,8 @@ class Navbar extends Component {
 
 Navbar.propTypes = {
   authentication: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  history: PropTypes.object
 }
 
 function mapStateToProps(state) {

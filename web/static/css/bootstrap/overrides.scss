@@ -41,8 +41,26 @@ nav {
     text-align: right;
     position: relative;
 
+    &.search-box {
+      @media (min-width: 768px) {
+        margin-right: 0px;
+      }
+    }
+
     @media (min-width: 768px) {
       padding-right: 0px;
+
+      input[type=text],
+      input[type=password] {
+        max-width: 140px;
+      }
+    }
+
+    @media (min-width: 992px) {
+      input[type=text],
+      input[type=password] {
+        max-width: 185px;
+      }
     }
 
     .form-group {
@@ -114,4 +132,8 @@ body.modal-open{
   padding-right:0!important;
   overflow-y:auto!important;
   position:fixed!important;
+}
+
+.btn {
+  line-height: 1.48;
 }
