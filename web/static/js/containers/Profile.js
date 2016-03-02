@@ -63,7 +63,7 @@ class Profile extends Component {
   }
 
   hasUserChanged(oldProps, newProps) {
-    return (oldProps.params.username != newProps.params.username)
+    return (oldProps.params.username.toLowerCase() != newProps.params.username.toLowerCase())
   }
 
   hasStatusChanged(oldProps, newProps) {
@@ -71,8 +71,8 @@ class Profile extends Component {
   }
 
   isUserProfile() {
-    return (this.props.user.details &&
-            this.props.user.details.username === this.props.params.username)
+    return (this.props.user.details && this.props.user.details.username &&
+            this.props.user.details.username.toLowerCase() === this.props.params.username.toLowerCase())
   }
 
   isProfileValid() {
@@ -87,9 +87,9 @@ class Profile extends Component {
       return false
     }
 
-    var currentUser = this.props.user.details.username
+    var currentUser = (this.props.user.details.username ? this.props.user.details.username.toLowerCase() : "")
     return (this.props.follows.data.followers.some((follower) => {
-              return (follower.username === currentUser)
+              return (follower.username.toLowerCase() === currentUser)
             }))
   }
 
@@ -120,12 +120,12 @@ class Profile extends Component {
   }
 
   refreshState() {
-    this.fetchProfile(this.props.params.username)
+    this.fetchProfile(this.props.params.username.toLowerCase())
 
     var token = Storage.loadAccessToken()
     this.getUserDetails(token)
     this.getUserStatuses(token)
-    this.fetchProfileFollow(this.props.params.username, token)
+    this.fetchProfileFollow(this.props.params.username.toLowerCase(), token)
   }
 
   componentDidMount() {
@@ -141,10 +141,11 @@ class Profile extends Component {
 
   renderUserStatus(withUpdate) {
     var className = "profile-block section-block " + (withUpdate ? "col-md-8" : "col-md-12")
+    var profileUsername = (this.props.profile.details.statuses.length > 0 ? this.props.profile.details.statuses[0].username : "")
     return (
       <div className={className}>
         <UserStatus
-          username={this.props.params.username}
+          username={profileUsername}
           statusHistory={this.props.profile.details.statuses}
           fullHistory={true}
           isFollowing={this.isUserFollowing()}
@@ -183,7 +184,7 @@ class Profile extends Component {
         <PendingBlock height="360px" fontSize="32px" />
       )
     } else {
-      var sortedData = (this.props.data ? this.props.data[type] : [])
+      var sortedData = (this.props.follows.data ? this.props.follows.data[type] : [])
 
       if (sortedData.length > 0) {
         sortedData = this.props.follows.data[type].sort((a, b) => {
