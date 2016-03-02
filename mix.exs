@@ -33,6 +33,7 @@ defmodule StatazWebsite.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
-     {:httpoison, "~> 0.8.1"}]
+     {:httpoison, "~> 0.8.1"},
+     {:exrm, "~> 1.0"}]
   end
 end
