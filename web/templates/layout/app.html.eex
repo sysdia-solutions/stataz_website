@@ -12,7 +12,7 @@
     <script>
       var api_endpoint = "<%= Application.get_env(:stataz_website, :api_endpoint) %>";
       var local_endpoint = "<%= Application.get_env(:stataz_website, :local_endpoint) %>";
-      var debug_mode = <%= if Mix.env == "prod", do: false, else: true %>;
+      var debug_mode = <%= Application.get_env(:stataz_website, :debug_mode) %>;
     </script>
   </head>
   <body>
