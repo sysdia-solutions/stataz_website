@@ -183,9 +183,13 @@ class Profile extends Component {
         <PendingBlock height="360px" fontSize="32px" />
       )
     } else {
-      var sortedData = this.props.follows.data[type].sort((a, b) => {
-        return a.since - b.since
-      })
+      var sortedData = (this.props.data ? this.props.data[type] : [])
+
+      if (sortedData.length > 0) {
+        sortedData = this.props.follows.data[type].sort((a, b) => {
+          return a.since - b.since
+        })
+      }
       return (
         <DataList title={type}
                   data={sortedData}
