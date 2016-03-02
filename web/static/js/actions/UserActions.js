@@ -117,7 +117,7 @@ function apiUserSignOut(token_type, access_token) {
       method: 'DELETE',
       headers: getHeaders(token_type, access_token)
     })
-    .then(dispatch(receiveUserSignOut()))
+    .then(response => dispatch(receiveUserSignOut()))
   }
 }
 
@@ -191,7 +191,7 @@ function apiUserSetStatus(id, token_type, access_token) {
       headers: getHeaders(token_type, access_token),
       body: JSON.stringify({active: true})
     })
-    .then(dispatch(receiveUserSetStatus()))
+    .then(response => dispatch(receiveUserSetStatus()))
   }
 }
 
@@ -203,7 +203,7 @@ function apiUserDeleteStatus(id, token_type, access_token) {
       method: 'DELETE',
       headers: getHeaders(token_type, access_token)
     })
-    .then(dispatch(receiveUserDeleteStatus()))
+    .then(response => dispatch(receiveUserDeleteStatus()))
   }
 }
 
@@ -216,7 +216,7 @@ function apiUserAddStatus(text, token_type, access_token) {
       headers: getHeaders(token_type, access_token),
       body: JSON.stringify({description: text})
     })
-    .then(dispatch(receiveUserAddStatus()))
+    .then(response => dispatch(receiveUserAddStatus()))
   }
 }
 
@@ -228,7 +228,7 @@ function apiUserFollow(username, token_type, access_token) {
       method: 'POST',
       headers: getHeaders(token_type, access_token)
     })
-    .then(dispatch(receiveUserFollow()))
+    .then(response => dispatch(receiveUserFollow()))
   }
 }
 
@@ -240,7 +240,7 @@ function apiUserUnfollow(username, token_type, access_token) {
       method: 'DELETE',
       headers: getHeaders(token_type, access_token)
     })
-    .then(dispatch(receiveUserUnfollow()))
+    .then(response => dispatch(receiveUserUnfollow()))
   }
 }
 
