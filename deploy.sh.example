@@ -1,0 +1,6 @@
+#!/bin/bash
+
+MIX_ENV=prod mix release.clean
+MIX_ENV=prod mix phoenix.digest
+MIX_ENV=prod mix release
+scp rel/stataz_website/releases/0.0.1/stataz_website.tar.gz username@server.address:/remote/server/path
