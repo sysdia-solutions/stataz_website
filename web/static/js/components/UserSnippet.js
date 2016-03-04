@@ -3,7 +3,7 @@ import Username from './Username'
 
 export default class UserSnippet extends Component {
   render() {
-    var gravitar = "http://www.gravatar.com/avatar/" + CryptoJS.MD5(this.props.email) + "?d=http://www.icons101.com/icon_png/size_32/id_66286/avatardefault.png&s=32"
+    var gravitar = "https://www.gravatar.com/avatar/" + CryptoJS.MD5(this.props.email) + "?d=https://www.stataz.com/images/avatardefault.png&s=32"
     return (
       <div className="user-snippet navbar-right">
         <div className="user-details img-rounded">

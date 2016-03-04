@@ -2,7 +2,7 @@ defmodule StatazWebsite.AuthController do
   use StatazWebsite.Web, :controller
 
   def create(conn, params) do
-    StatazWebsite.Auth.password_authenticate(conn, params["username"], params["password"])
+    StatazWebsite.Auth.password_authenticate(params["username"], params["password"])
     |> create_response(conn)
   end
 

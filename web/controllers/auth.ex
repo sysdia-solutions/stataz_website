@@ -1,6 +1,6 @@
 defmodule StatazWebsite.Auth do
 
-  def password_authenticate(conn, username, password) do
+  def password_authenticate(username, password) do
     data = {:form,
              [
                username: username,
