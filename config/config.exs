@@ -10,7 +10,8 @@ config :stataz_website,
   local_endpoint: System.get_env("ENV_STATAZWEBSITE_LOCAL_ENDPOINT") || "",
   api_endpoint: System.get_env("ENV_STATAZWEBSITE_API_ENDPOINT") || "",
   api_client_id: System.get_env("ENV_STATAZWEBSITE_API_CLIENT_ID") || "defaultclientid",
-  debug_mode: System.get_env("ENV_STATAZWEBSITE_DEBUG_MODE") || true
+  debug_mode: System.get_env("ENV_STATAZWEBSITE_DEBUG_MODE") || true,
+  cafile: System.get_env("ENV_STATAZWEBSITE_CAFILE") || ""
 
 # Configures the endpoint
 config :stataz_website, StatazWebsite.Endpoint,

@@ -1,4 +1,5 @@
 defmodule StatazWebsite.Auth do
+  alias StatazWebsite.HTTPRequest
 
   def password_authenticate(username, password) do
     data = {:form,
@@ -10,10 +11,7 @@ defmodule StatazWebsite.Auth do
              ]
            }
 
-    headers = %{"Content-Type" => "application/json",
-                "Accept" => "application/json"}
-
     Application.get_env(:stataz_website, :api_endpoint) <> "/auth"
-    |> HTTPoison.post(data, headers)
+    |> HTTPRequest.post(data, "")
   end
 end

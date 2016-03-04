@@ -1,13 +1,11 @@
 defmodule StatazWebsite.UserController do
   use StatazWebsite.Web, :controller
 
-  def show(conn, _params) do
+  alias StatazWebsite.HTTPRequest
 
-    headers = %{"Content-Type" => "application/json",
-                "Accept" => "application/json",
-                "Authorization" => get_req_header(conn, "authorization")}
+  def show(conn, _params) do
     Application.get_env(:stataz_website, :api_endpoint) <> "/user"
-    |> HTTPoison.get(headers)
+    |> HTTPRequest.get(get_req_header(conn, "authorization"))
     |> user_response(conn)
   end
 
@@ -20,17 +18,14 @@ defmodule StatazWebsite.UserController do
              ]
            }
 
-    headers = %{"Content-Type" => "application/json",
-                "Accept" => "application/json"}
-
     Application.get_env(:stataz_website, :api_endpoint) <> "/user"
-    |> HTTPoison.post(data, headers)
+    |> HTTPRequest.post(data, "")
     |> create_response(conn, params)
   end
 
   defp create_response({:ok, response}, conn, params) do
     if response.status_code == 201 do
-      StatazWebsite.Auth.password_authenticate(conn, params["username"], params["password"])
+      StatazWebsite.Auth.password_authenticate(params["username"], params["password"])
       |> auth_response(conn)
     else
       conn
@@ -83,11 +78,8 @@ defmodule StatazWebsite.UserController do
   end
 
   defp get_status(user_data, conn) do
-    headers = %{"Content-Type" => "application/json",
-                "Accept" => "application/json"}
-
     Application.get_env(:stataz_website, :api_endpoint) <> "/status/" <> user_data["username"]
-    |> HTTPoison.get(headers)
+    |> HTTPRequest.get("")
     |> show_response(conn, user_data)
   end
 
