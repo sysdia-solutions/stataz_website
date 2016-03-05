@@ -1,12 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
 import * as userActions from '../actions/UserActions'
 import * as Storage from '../utils/Storage'
 
-import UserSignIn from '../components/UserSignIn'
-import UserSnippet from '../components/UserSnippet'
-import SearchBox from '../components/SearchBox'
+import NavbarSection from '../components/NavbarSection'
 
 class Navbar extends Component {
   constructor(props) {
@@ -62,48 +59,13 @@ class Navbar extends Component {
     }
   }
 
-  renderUserArea() {
-    if (this.props.user.details && this.props.user.details.username) {
-      return (
-        <UserSnippet
-          username={this.props.user.details.username}
-          email={this.props.user.details.email}
-          onSignOutClick={this.handleSignOut} />
-      )
-    }
-    else {
-      return (
-        <UserSignIn
-          authenticated={this.props.authentication.isAuthenticated}
-          processing={this.props.authentication.isProcessing}
-          processed={this.props.authentication.hasProcessed}
-          failed={this.props.authentication.hasFailed}
-          onSignInClick={this.handleSignIn} />
-      )
-    }
-  }
-
   render() {
     return (
-      <nav className="navbar navbar-inverse navbar-fixed-top">
-        <div className="container">
-          <div className="navbar-header">
-            <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-              <span className="sr-only">Toggle navigation</span>
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
-            </button>
-            <Link className="navbar-brand" to="/">
-              <img src="/images/stataz_logo.png" alt="Stataz" title="Stataz"/>
-            </Link>
-          </div>
-          <div id="navbar" className="navbar-collapse collapse">
-            {this.renderUserArea()}
-            <SearchBox onSearchClick={this.handleSearch}/>
-          </div>
-        </div>
-      </nav>
+      <NavbarSection user={this.props.user}
+                     authentication={this.props.authentication}
+                     onSearchClick={this.handleSearch}
+                     onSignOutClick={this.handleSignOut}
+                     onSignInClick={this.handleSignIn} />
     )
   }
 }
