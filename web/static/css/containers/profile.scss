@@ -43,4 +43,10 @@
       width: calc(50% - #{$block-margin});
     }
   }
+
+  .invalid-user-block {
+    background-color: $brand-warning;
+    color: $white;
+    min-height: 200px;
+  }
 }

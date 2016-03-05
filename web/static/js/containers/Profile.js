@@ -204,7 +204,7 @@ class Profile extends Component {
   renderProfile() {
     if (this.isProfileValid()) {
       return (
-        <div className="page-section profile-section">
+        <div>
           <div className="row">
             {this.renderUserStatus(this.isUserProfile())}
             {this.renderUpdateStatus(this.isUserProfile())}
@@ -221,7 +221,9 @@ class Profile extends Component {
       )
     } else {
       return (
-        <div>Cannot find user</div>
+        <div className="section-block invalid-user-block">
+          <h1>Sorry, we can't find that user</h1>
+        </div>
       )
     }
   }
@@ -233,7 +235,9 @@ class Profile extends Component {
       )
     } else {
       return (
-        this.renderProfile()
+        <div className="page-section profile-section">
+          { this.renderProfile() }
+        </div>
       )
     }
   }
