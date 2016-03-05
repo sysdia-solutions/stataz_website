@@ -17,6 +17,12 @@
     }
   }
 
+  .popular-stataz {
+    li a {
+      margin-right: 5px;
+    }
+  }
+
   .recent-activity,
   .popular-stataz {
     @media (min-width: 992px) {
