@@ -4,12 +4,7 @@ import * as userActions from '../actions/UserActions'
 import * as profileActions from '../actions/ProfileActions'
 import * as Storage from '../utils/Storage'
 
-import MainContent from '../components/MainContent'
-import UserStatus from '../components/UserStatus'
-import StatusManager from '../components/StatusManager'
-import DataList from '../components/DataList'
-import UserStatusItem from '../components/UserStatusItem'
-import PendingBlock from '../components/PendingBlock'
+import ProfileSection from '../components/ProfileSection'
 
 class Profile extends Component {
   constructor(props) {
@@ -75,28 +70,6 @@ class Profile extends Component {
             this.props.user.details.username.toLowerCase() === this.props.params.username.toLowerCase())
   }
 
-  isProfileValid() {
-    return (this.props.profile.details &&
-            this.props.profile.details.statuses instanceof Array)
-  }
-
-  isUserFollowing() {
-    if (! this.props.user.details ||
-        ! this.props.follows.data ||
-        ! this.props.follows.data.followers) {
-      return false
-    }
-
-    var currentUser = (this.props.user.details.username ? this.props.user.details.username.toLowerCase() : "")
-    return (this.props.follows.data.followers.some((follower) => {
-              return (follower.username.toLowerCase() === currentUser)
-            }))
-  }
-
-  isUserSignedIn() {
-    return (this.props.user.details && this.props.user.details.username !== undefined)
-  }
-
   fetchProfile(username) {
     this.props.dispatch(profileActions.fetchProfile(username))
   }
@@ -119,134 +92,47 @@ class Profile extends Component {
     this.props.dispatch(profileActions.addStatusFieldOnChange(""))
   }
 
-  refreshState() {
+  refreshState(refreshFollows) {
     this.fetchProfile(this.props.params.username.toLowerCase())
 
     var token = Storage.loadAccessToken()
     this.getUserDetails(token)
     this.getUserStatuses(token)
-    this.fetchProfileFollow(this.props.params.username.toLowerCase(), token)
+    if (!this.isUserProfile() || refreshFollows) {
+      this.fetchProfileFollow(this.props.params.username.toLowerCase(), token)
+    }
   }
 
   componentDidMount() {
-    this.refreshState()
+    this.refreshState(true)
   }
 
   componentDidUpdate(prevProps) {
-    if (this.hasUserChanged(prevProps, this.props) ||
-        this.hasStatusChanged(prevProps, this.props)) {
-      this.refreshState()
-    }
-  }
-
-  renderUserStatus(withUpdate) {
-    var className = "profile-block section-block " + (withUpdate ? "col-md-8" : "col-md-12")
-    var profileUsername = (this.props.profile.details.statuses.length > 0 ? this.props.profile.details.statuses[0].username : "")
-    return (
-      <div className={className}>
-        <UserStatus
-          username={profileUsername}
-          statusHistory={this.props.profile.details.statuses}
-          fullHistory={true}
-          isFollowing={this.isUserFollowing()}
-          isUser={this.isUserProfile()}
-          isAuthenticated={this.isUserSignedIn()}
-          onFollowClick={this.handleFollowClick}
-          onUnfollowClick={this.handleUnfollowClick} />
-      </div>
-    )
-  }
-
-  renderUpdateStatus(allowed) {
-    if (allowed && this.props.userStatus.details.statuses) {
-      return (
-        <div className="status-manager-block section-block col-md-4">
-          <StatusManager
-            statuses={this.props.userStatus.details.statuses}
-            elementStatus={this.props.addStatusField}
-            onSetStatusClick={this.handleSetStatus}
-            onConfirmDeleteStatusClick={this.handleConfirmDeleteStatusModal}
-            onDeleteStatusClick={this.handleDeleteStatus}
-            onAddStatusClick={this.handleAddStatus}
-            onAddStatusType={this.handleAddStatusType}
-            deleteModalData={this.props.statusDeleteModal}
-            closeDeleteConfirmModal={this.handleHideDeleteStatusModal}
-            />
-        </div>
-      )
-    }
-    return
-  }
-
-  renderFollowBlock(type) {
-    if (!this.props.follows.data || this.props.follows.isFetching) {
-      return (
-        <PendingBlock height="360px" fontSize="32px" />
-      )
-    } else {
-      var sortedData = (this.props.follows.data ? this.props.follows.data[type] : [])
-
-      if (sortedData.length > 0) {
-        sortedData = this.props.follows.data[type].sort((a, b) => {
-          return a.since - b.since
-        })
-      }
-      return (
-        <DataList title={type}
-                  data={sortedData}
-                  contentHeight={200}
-                  itemElement={UserStatusItem}
-                  noDataMessage="No users found" />
-      )
-    }
-  }
-
-  renderProfile() {
-    if (this.isProfileValid()) {
-      return (
-        <div>
-          <div className="row">
-            {this.renderUserStatus(this.isUserProfile())}
-            {this.renderUpdateStatus(this.isUserProfile())}
-          </div>
-          <div className="row">
-            <div className="section-block follow-block following-block col-md-6">
-              {this.renderFollowBlock("following")}
-            </div>
-            <div className="section-block follow-block followers-block col-md-6">
-              {this.renderFollowBlock("followers")}
-            </div>
-          </div>
-        </div>
-      )
-    } else {
-      return (
-        <div className="section-block invalid-user-block">
-          <h1>Sorry, we can't find that user</h1>
-        </div>
-      )
-    }
-  }
-
-  renderPage() {
-    if (this.props.profile.isFetching) {
-      return (
-        <PendingBlock height="363px" fontSize="32px" />
-      )
-    } else {
-      return (
-        <div className="page-section profile-section">
-          { this.renderProfile() }
-        </div>
-      )
+    var userChanged = this.hasUserChanged(prevProps, this.props)
+    var statusChanged = this.hasStatusChanged(prevProps, this.props)
+    if (userChanged || statusChanged) {
+      this.refreshState(!statusChanged)
     }
   }
 
   render() {
     return (
-      <MainContent>
-        {this.renderPage()}
-      </MainContent>
+      <ProfileSection username={this.props.params.username}
+                      user={this.props.user}
+                      profile={this.props.profile}
+                      userStatus={this.props.userStatus}
+                      follows={this.props.follows}
+                      addStatusField={this.props.addStatusField}
+                      handleSetStatus={this.handleSetStatus}
+                      handleConfirmDeleteStatusModal={this.handleConfirmDeleteStatusModal}
+                      handleDeleteStatus={this.handleDeleteStatus}
+                      handleAddStatus={this.handleAddStatus}
+                      handleAddStatusType={this.handleAddStatusType}
+                      statusDeleteModal={this.props.statusDeleteModal}
+                      handleHideDeleteStatusModal={this.handleHideDeleteStatusModal}
+                      handleFollowClick={this.handleFollowClick}
+                      handleUnfollowClick={this.handleUnfollowClick} />
+
     )
   }
 }
